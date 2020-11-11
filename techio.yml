@@ -2,5 +2,7 @@ title: Faire une application pour Numworks
 plan:
 - title: Introduction
   statement: markdowns/introduction.md
+-title: Environnement
+  statement: markdowns/environnement.md
 - title: Création de l'application
   statement: markdowns/creation.md
