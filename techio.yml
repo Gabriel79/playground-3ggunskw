@@ -1,4 +1,6 @@
-title: Custom Template
+title: Faire une application pour Numworks
 plan:
-- title: Welcome
-  statement: markdowns/welcome.md
+- title: Introduction
+  statement: markdowns/introduction.md
+- title: Création de l'application
+  statement: markdowns/creation.md
