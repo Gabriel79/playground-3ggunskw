@@ -233,7 +233,7 @@ et montrer vos talents en langue en traduisant "reader" dans toutes les langues.
 ### L'icone
 
 Il vous faudra ensuite une icone de 55x56 au format png.
-![Icone](reader_icon.png)
+![Icone](../reader_icon.png)
 à mettre également dans votre répertoire `apps\reader`
 
 ### L'intégration
