@@ -2,7 +2,7 @@
 
 Notre application va s'appeller `Reader`. Les applications sur la Numworks se trouve sous le répertoire `apps`. Chaque application a son propre répertoire. Nos allons donc créer notre répertoire `apps\reader`.
 
-Dans ce répertoire nous allons créer le code de l'application. Toutes les applications sur la numworks utilisent la même classe principale : App. Nous allons imiter les autres applications.
+Dans ce répertoire nous allons créer le code de l'application. Toutes les applications sur la numworks utilisent la même classe principale: App. Nous allons imiter les autres applications.
 
 En C/C++, le code d'une classe se répartit sur 2 fichiers (à la différence du java ou du python). On a d'abord un header reconnaissable à son extension .h ou .hpp qui déclare la classe, ses membres et ses fonctions. Ce fichier ne décrit pas ce que font les fonctions, il expose juste leur existance.
 
@@ -19,7 +19,7 @@ Les headers commencent et finissent toujours par un bout de code un peu particul
 ...
 #endif
 ```
-On appelle ce pattern des "include guard", ces instructions s'adresse au pre-compilateur et évite de déclarer plusieurs fois les mêmes classes.
+On appelle ce pattern des "include guard", ces instructions s'adressent au pre-compilateur et évite de déclarer plusieurs fois les mêmes classes.
 
 ### Namespace
 
@@ -86,7 +86,7 @@ App(Snapshot * snapshot);
 ### En résumé
 
 Le fichier `apps\reader\App.h` aura donc cette tête là:
-```gcc:latest
+```gcc:latest runnable
 #ifndef READER_H
 #define READER_H
 
