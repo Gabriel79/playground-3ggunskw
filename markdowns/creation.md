@@ -13,7 +13,7 @@ Nous créons donc un fichier `apps\reader\App.h`
 ### Header guard
 
 Les headers commencent et finissent toujours par un bout de code un peu particulier qu'il convient de comprendre:
-```gcc:latest
+```c++
 #ifndef __APP__H__
 #define __APP__H__
 ...
@@ -24,7 +24,7 @@ On appelle ce pattern des "include guard", ces instructions s'adressent au pre-c
 ### Namespace
 
 Comme toutes les applications déclarent une class App, pour éviter les "collisions" de nom, chaque application déclare ses classes dans son propre "namespace". Nous allons donc utiliser notre propre namespace et mettre tout notre code dans un bloc tel que:
-```gcc:latest
+```c++
 namespace reader
 {
 
@@ -34,7 +34,7 @@ namespace reader
 ### La classe
 
 En C++, une classe se déclare de la façon suivante:
-```gcc:latest
+```c++
 class App
 {
 
@@ -45,12 +45,12 @@ Attention à ne pas oublier le ";" final.
 
 
 En réalité, nous allons dériver notre classe App d'une classe App fournie par numworks. Pour cela, nous avons déjà besoin d'inclure la déclaration de cette classe à notre fichier:
-```gcc:latest
+```c++
 #include <escher.h>
 ```
 
 Puis nous déclarons lors de la création de notre classe qu'elle hérite de la classe App de numworks. Cela nous évite d'écrire nous même une partie des fonctions dont toutes les applications ont besoin:
-```gcc:latest
+```c++
 class App : public ::App {
 };
 ```
@@ -59,7 +59,7 @@ class App : public ::App {
 
 Malheureusement, bien que notre classe hérite d'une classe de Numworks, nous allons devoir écrire quelques lignes de codes un peu compliquées. Il s'agit de définir 2 classes internes, dérivant elles mêmes de 2 classes fournies par Numworks. La classe `Descriptor` permet d'indiquer le nom et l'icone de notre application. Le rôle de la classe `Snapshot` est moins clair pour moi.
 Notre classe devient donc:
-```gcc:latest
+```c++
 class App : public ::App {
 public:
   class Descriptor : public ::App::Descriptor {
@@ -79,14 +79,14 @@ public:
 ```
 
 et pour finir nous déclarons un constructeur à notre classe. Le constructeur est la fonction qui permet de créer une instance de notre classe.
-```gcc:latest
+```c++
 App(Snapshot * snapshot);
 ```
 
 ### En résumé
 
 Le fichier `apps\reader\App.h` aura donc cette tête là:
-```gcc:latest runnable
+```c++
 #ifndef READER_H
 #define READER_H
 
