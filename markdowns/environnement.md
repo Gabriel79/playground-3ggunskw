@@ -26,8 +26,7 @@ Une fois l'environnement de développement préparé, il vous faut cloner Omega 
 
 Je vous conseille de compiler une première fois le repository pour vous assurer que votre chaine de compilation fonctionne.
 
-Pour compiler pour le simulateur de votre plateforme, allez dans le répertoire de votre repository:
-
+Pour compiler pour le simulateur de votre plateforme, allez dans le répertoire de votre repository:\
 `$ cd Omega`
 
 puis sous macos:\
