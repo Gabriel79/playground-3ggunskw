@@ -314,7 +314,7 @@ sous windows:\
 `$ output/release/simulator/windows/epsilon.exe`
 
 Normalement votre application devrait apparaître dans le simulateur. Vous pouvez essayer de la lancer, mais elle va faire se crasher le simulateur ou votre calculatrice...
-![Ecran d'acceuil avec votre app](..\creation-accueil_numworks.png)
+![Ecran d'accueil avec votre app](../creation-accueil_numworks.png)
 
 ### On sauvegarde
 
