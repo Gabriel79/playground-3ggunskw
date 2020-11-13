@@ -7,7 +7,7 @@ Quelques connaissances de programmation dans un langage comme le python ou le ja
 
 #### La Numworks
 
-La Numworks se programme en C++, mais ne supporte pas toutes les librairies C/C++ qu'on a l'habitude de rencontrer, ce qui ne rend pas forcément le developpement très facile à un developpeur C++, mais cela simplifiera les choses pour un developpeutr débutant.
+La Numworks se programme en C++, mais ne supporte pas toutes les librairies C/C++ qu'on a l'habitude de rencontrer, ce qui ne rend pas forcément le developpement très facile à un developpeur C++, mais cela simplifiera les choses pour un developpeur débutant.
 
 Il faut avoir en tête que la Numworks est une machine un peu "light" en terme de mémoire et vitesse de calcul par rapport à un ordinateur. Elle ne dispose pas d'un disque dur ni d'un système de fichier. On peut cependant uploader des fichiers dans une zone particulière de la mémoire ce qui permettra à notre programme d'y accéder très simplement.
 
