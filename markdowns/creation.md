@@ -1,10 +1,10 @@
 # Création du squelette de l'application
 
-Notre application va s'appeller `Reader`. Les applications sur la Numworks se trouve sous le répertoire `apps`. Chaque application a son propre répertoire. Nos allons donc créer notre répertoire `apps\reader`.
+Notre application va s'appeler `Reader`. Les applications sur la Numworks se trouve sous le répertoire `apps`. Chaque application a son propre répertoire. Nos allons donc créer notre répertoire `apps\reader`.
 
-Dans ce répertoire nous allons créer le code de l'application. Toutes les applications sur la numworks utilisent la même classe principale: App. Nous allons imiter les autres applications.
+Dans ce répertoire nous allons créer le code de l'application. Toutes les applications sur la Numworks utilisent la même classe principale: App. Nous allons imiter les autres applications.
 
-En C/C++, le code d'une classe se répartit sur 2 fichiers (à la différence du java ou du python). On a d'abord un header reconnaissable à son extension .h ou .hpp qui déclare la classe, ses membres et ses fonctions. Ce fichier ne décrit pas ce que font les fonctions, il expose juste leur existance.
+En C/C++, le code d'une classe se répartit sur 2 fichiers (à la différence du java ou du python). On a d'abord un header reconnaissable à son extension .h ou .hpp qui déclare la classe, ses membres et ses fonctions. Ce fichier ne décrit généralement pas ce que font les fonctions, il expose juste leur existence.
 
 ## Le header
 
@@ -21,15 +21,19 @@ Les headers commencent et finissent toujours par un bout de code un peu particul
 ```
 On appelle ce pattern des "include guard", ces instructions s'adressent au pre-compilateur et évite de déclarer plusieurs fois les mêmes classes.
 
+La première ligne `#ifndef __APP__H__` indique que le compilateur ne traitera la suite du fichier jusqu'au `#endif` que si la variable `__APP__H__` n'est pas définie. Si c'est le cas, la seconde ligne `#define __APP__H__` définie cette variable pour que la prochaine fois que le compilateur traite ce fichier, il ignore tout le contenu.
+
 ### Namespace
 
-Comme toutes les applications déclarent une class App, pour éviter les "collisions" de nom, chaque application déclare ses classes dans son propre "namespace". Nous allons donc utiliser notre propre namespace et mettre tout notre code dans un bloc tel que:
+Comme toutes les applications déclarent une class App, pour éviter les "collisions" de nom, chaque application déclare ses classes dans son propre "namespace". On peut rapprocher le concept de namespace du package en java. Nous allons donc utiliser notre propre namespace et mettre tout notre code dans un bloc tel que:
 ```c++
 namespace reader
 {
 
 }
 ```
+
+Au sein du namespace `reader`, le nom de notre classe sera `App`, mais vu de l'extérieur son nom complet sera `reader::App`.
 
 ### La classe
 
@@ -44,12 +48,12 @@ class App
 Attention à ne pas oublier le ";" final.
 
 
-En réalité, nous allons dériver notre classe App d'une classe App fournie par numworks. Pour cela, nous avons déjà besoin d'inclure la déclaration de cette classe à notre fichier:
+En réalité, nous allons dériver notre classe `App` d'une classe `::App` fournie par Numworks. Pour cela, nous avons déjà besoin d'inclure la déclaration de cette classe à notre fichier:
 ```c++
 #include <escher.h>
 ```
 
-Puis nous déclarons lors de la création de notre classe qu'elle hérite de la classe App de numworks. Cela nous évite d'écrire nous même une partie des fonctions dont toutes les applications ont besoin:
+Puis nous déclarons lors de la création de notre classe qu'elle hérite de la classe `::App` de Numworks. Cela nous évite d'écrire nous même une partie des fonctions dont toutes les applications ont besoin:
 ```c++
 class App : public ::App {
 };
@@ -57,7 +61,7 @@ class App : public ::App {
 
 ### Descriptor et Snapshot
 
-Malheureusement, bien que notre classe hérite d'une classe de Numworks, nous allons devoir écrire quelques lignes de codes un peu compliquées. Il s'agit de définir 2 classes internes, dérivant elles mêmes de 2 classes fournies par Numworks. La classe `Descriptor` permet d'indiquer le nom et l'icone de notre application. Le rôle de la classe `Snapshot` est moins clair pour moi, je pense qu'elle permet de sauver la classe dans la mémoire de la numworks quand l'utilisateur quitte l'application pour pouvoir la restaurer quand il l'ouvre.
+Malheureusement, bien que notre classe hérite d'une classe de Numworks, nous allons devoir écrire quelques lignes de codes un peu compliquées. Il s'agit de définir 2 classes internes, dérivant elles mêmes de 2 classes fournies par Numworks. La classe `Descriptor` permet d'indiquer le nom et l'icône de notre application. Le rôle de la classe `Snapshot` est moins clair pour moi, je pense qu'elle permet de sauver la classe dans la mémoire de la Numworks quand l'utilisateur quitte l'application pour pouvoir la restaurer quand il l'ouvre.
 Notre classe devient donc:
 ```c++
 class App : public ::App {
@@ -76,7 +80,9 @@ public:
 };
 ```
 
-et pour finir nous déclarons un constructeur à notre classe. Le constructeur est la fonction qui permet de créer une instance de notre classe.
+Les `override` derrière le nom des fonctions de `Descriptor` indique qu'on est en train de surcharger une fonction de la classe dont on dérive. Ce mot clé est optionnel, mais c'est mieux de le mettre car il permet d'avoir une erreur de compilation si la signature de la fonction dans la classe dont on dérive venait à changer ou si on fait une faute dans la signature de notre propre fonction qui ne serait alors pas appelée sans qu'il n'y ait d'erreur de compilation.
+
+Pour finir nous déclarons un constructeur à notre classe. Le constructeur est la fonction qui permet de créer une instance de notre classe, en pratique ce n'est pas nous qui instancierons notre classe mais un code générique de la Numworks.
 ```c++
 App(Snapshot * snapshot);
 ```
@@ -127,9 +133,9 @@ Commençons par inclure quelques fichiers de définition:
 #include "apps/i18n.h"
 ```
 
-Le premier header "app.h" est le fichier que nous venons de créer. Je n'ai aucune idée de ce qu'est réellement le second `reader_icon.h`. `apps/apps_container.h` fournit un objet dont nous aurons besoin. Le dernier `apps/i8n.h` est un fichier contenant la traduction des chaines de caractères utilisées dans les applications. En effet, pour rendre l'internationnalisation plus simple, les applications évitent de contenir directement des chaines de caractères dans leur code, mais utilisent un label qui avec un peu de magie sera transformée en la bonne chaine de caractère selon la langue dans laquelle est configurée la calculatrice. Ce n'est pas totalement magique, il faudra bien traduire ces chaines quelques part.
+Le premier header "app.h" est le fichier que nous venons de créer. Je n'ai aucune idée de ce qu'est réellement le second `reader_icon.h`. `apps/apps_container.h` fournit un objet dont nous aurons besoin dans le constructeur de notre classe. Le dernier `apps/i8n.h` est un fichier contenant la traduction des chaînes de caractères utilisées dans les applications. En effet, pour rendre l'internationalisation plus simple, les applications évitent de contenir directement des chaînes de caractères dans leur code, mais utilisent un label qui avec un peu de magie sera transformé en la bonne chaînes de caractères selon la langue dans laquelle est configurée la calculatrice. Ce n'est pas totalement magique, il faudra bien traduire ces chaînes quelques part.
 
-Comme dans le header, nous allons mettre ensuite notre code dans notre namespace. Attention à ne pas mettre les includes dans le header. En effet, les includes recopient le contenu des headers dans notre fichier au moment de la compilation, mettre les includes dans notre namespace ajouterait ces définition à notre namespace ce que nous ne voulons pas.
+Comme dans le header, nous allons mettre ensuite notre code dans notre namespace. Attention à ne pas mettre les includes dans le namespace. En effet, les includes recopient le contenu des headers dans notre fichier au moment de la compilation, mettre les includes dans notre namespace ajouterait ces définitions à notre namespace ce que nous ne voulons pas.
 
 ```c++
 namespace reader
@@ -156,11 +162,11 @@ const Image * App::Descriptor::icon() {
 }
 ```
 
-La fonction `name` renvoie le nom de l'application, que nous allons définir ensuite dans un fichier de ressource. `upperName` renvoie le nom en capitale, et `icon` l'icone de l'application que nous allons également définir ensuite.
+La fonction `name` renvoie le nom de l'application, que nous allons définir ensuite dans un fichier de ressource. `upperName` renvoie le nom en capitale, et `icon` l'icône de l'application que nous allons également définir ensuite.
 
 ### Snapshot
 
-L'implementation de la class `Snapshot` est un peu plus compliquée.
+L'implémentation de la class `Snapshot` est un peu plus compliquée.
 
 ```c++
 App * App::Snapshot::unpack(Container * container) {
@@ -232,9 +238,7 @@ App::App(Snapshot * snapshot) :
 
 ### Les fichiers de resources
 
-Comme dit précédemment l'internationalisation se fait au moyen de fichiers de ressources. Il y en a un par langue. Le plus simple est de copié les fichiers .i18n d'une autre application dans votre répertoire `apps\reader`
-
-puis de remplacer leur contenu par le votre :
+Comme dit précédemment l'internationalisation se fait au moyen de fichiers de ressources. Il y en a un par langue. Le plus simple est de copier les fichiers .i18n d'une autre application dans votre répertoire `apps\reader` puis de remplacer leur contenu par le votre :
 ```
 ReaderApp = "Reader"
 ReaderAppCapital = "READER"
@@ -254,14 +258,13 @@ au fichier `themes\icons.json`
 
 ### L'intégration
 
-Il faut ensuite inclure votre application aux applications à construire et embarquer sur la calculatrice.
-Cela se fait dans le fichier `build\config.mak`
+Il faut ensuite inclure votre application aux applications à construire et à embarquer sur la calculatrice. Cela se fait dans le fichier `build\config.mak`
 
 Rajouter "reader" à la ligne:\
 `EPSILON_APPS ?= reader calculation rpn graph code statistics probability solver atom sequence regression settings external`
-La position de votre application sur cette ligne déterminera sa position dans les applications de la calculatrice.
+La position de votre application sur cette ligne déterminera sa position dans les applications de la calculatrice. Je la met en tête pendant le développement c'est plus rapide pour tester...
 
-Ce fichier sert à configurer le "build" par défaut de la calculatrice. Vous pouvez ainsi changer le theme par défaut et d'autres paramètres.
+Ce fichier sert à configurer le "build" par défaut de la calculatrice. Vous pouvez ainsi changer le thème par défaut et d'autres paramètres.
 
 ### le Makefile
 
@@ -286,20 +289,20 @@ $(eval $(call depends_on_image,apps/reader/app.cpp,apps/reader/reader_icon.png))
 ```
 
 La ligne `apps += reader::App` rajoute votre application à la liste des app de la calculatrice. `reader` correspond à votre namespace et `App` à votre classe principale (si votre application à un autre nom et namespace pensez y).
-dans `app_headers` vous mettez vos headers et dans `app_sreader_src` vos fichier sources.
+dans `app_headers` vous mettez vos headers et dans `app_sreader_src` vos fichier sources, dans àpp_images` votre icône et dans ì18n_files` un peu de magie gère vos fichiers de traduction.
 
 
 ### Compilation
 
-Il est temps de retourner à votre ligne de commande. Dans le répertoire `Omega`, on va commencer par nettoyer le précédent build, avec :\
+Il est temps de retourner à votre ligne de commande. Dans le répertoire `Omega`, il peut être préférable de commencer par nettoyer le précédent build, avec :\
 `make PLATFORM=simulator device=windows MODEL="n0110" clean`
 
-Il n'est pas necessaire de faire ce `make clean` avant chaque compilation, la compilation suivante, recompilera tout et sera donc longue. Mais quand vous faites des modifications à autre chose que des fichiers .c ou .h, cela peut être necessaire pour que tous les objets necessaires soient bien construits.
+Il n'est pas nécessaire de faire ce `make clean` avant chaque compilation, la compilation suivante, recompilera tout et sera donc longue. Mais quand vous faites des modifications à autre chose que des fichiers .c ou .h, cela peut être nécessaire pour que tous les objets soient bien construits.
 
 Vous pouvez ensuite tenter une compilation:
 `make PLATFORM=simulator device=windows MODEL="n0110"`
 
-et si tout va bien il n'y aura pas d'erreur... (c'est malheureusement rare d'arriver à tout faire du premier coup sans faute de frappe ou autre étourderie). En cas d'erreur, essayer de comprendre le message qui peut mettre sur la voie de ce qui ne va pas...
+et si tout va bien il n'y aura pas d'erreur... (c'est malheureusement rare d'arriver à tout faire du premier coup sans fautes de frappe ou autres étourderies). En cas d'erreur, essayer de comprendre le message qui peut mettre sur la voie de ce qui ne va pas...
 
 ### Un premier test
 
@@ -310,8 +313,8 @@ sous macos:\
 sous windows:\
 `$ output/release/simulator/windows/epsilon.exe`
 
-Normalement votre application devrait apparaitre dans le simulateur. Vous pouvez essayer de la lancer, mais elle va faire se crasher le simulateur ou votre calculatrice...
-
+Normalement votre application devrait apparaître dans le simulateur. Vous pouvez essayer de la lancer, mais elle va faire se crasher le simulateur ou votre calculatrice...
+![Ecran d'acceuil avec votre app](..\creation-accueil_numworks.png)
 
 ### On sauvegarde
 
