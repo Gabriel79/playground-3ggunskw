@@ -1,8 +1,7 @@
 # Introduction
 
-Ce tuto s'adresse à des lycéens ayant acquis une calculatrice numworks (plutôt la version n0110 qui dispose de plus de mémoire que la version n0100) et qui souhaitent coder leur propre application.
-
 #### A qui s'adresse ce tuto?
+Ce tuto s'adresse à des lycéens ayant acquis une calculatrice numworks (plutôt la version n0110 qui dispose de plus de mémoire que la version n0100) et qui souhaitent coder leur propre application.
 
 Quelques connaissances de programmation dans un langage comme le python ou le java faciliteront certainement la compréhension de ces quelques pages. J'essayerais d'expliquer un peu les spécificités du C/C++ au fil de l'eau, mais si vous voulez vraiment apprendre ce langage, il vous faudra plus que ce tuto.
 
