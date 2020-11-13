@@ -1,8 +1,8 @@
 # Création du squelette de l'application
 
-Notre application va s'appeler `Reader`. Les applications sur la Numworks se trouve sous le répertoire `apps`. Chaque application a son propre répertoire. Nos allons donc créer notre répertoire `apps\reader`.
+Notre application va s'appeler `Reader`. Les applications sur la Numworks se trouve sous le répertoire `apps`. Chaque application a son propre répertoire. Nous allons donc créer notre répertoire `apps\reader`.
 
-Dans ce répertoire nous allons créer le code de l'application. Toutes les applications sur la Numworks utilisent la même classe principale: App. Nous allons imiter les autres applications.
+Dans ce répertoire nous allons créer le code de l'application. Toutes les applications sur la Numworks utilisent la même classe principale : App. Nous allons imiter les autres applications.
 
 En C/C++, le code d'une classe se répartit sur 2 fichiers (à la différence du java ou du python). On a d'abord un header reconnaissable à son extension .h ou .hpp qui déclare la classe, ses membres et ses fonctions. Ce fichier ne décrit généralement pas ce que font les fonctions, il expose juste leur existence.
 
@@ -12,7 +12,7 @@ Nous créons donc un fichier `apps\reader\app.h`
 
 ### Header guard
 
-Les headers commencent et finissent toujours par un bout de code un peu particulier qu'il convient de comprendre:
+Les headers commencent et finissent toujours par un bout de code un peu particulier qu'il convient de comprendre :
 ```c++
 #ifndef __APP__H__
 #define __APP__H__
@@ -37,7 +37,7 @@ Au sein du namespace `reader`, le nom de notre classe sera `App`, mais vu de l'e
 
 ### La classe
 
-En C++, une classe se déclare de la façon suivante:
+En C++, une classe se déclare de la façon suivante :
 ```c++
 class App
 {
@@ -48,7 +48,7 @@ class App
 Attention à ne pas oublier le ";" final.
 
 
-En réalité, nous allons dériver notre classe `App` d'une classe `::App` fournie par Numworks. Pour cela, nous avons déjà besoin d'inclure la déclaration de cette classe à notre fichier:
+En réalité, nous allons dériver notre classe `App` d'une classe `::App` fournie par Numworks. Pour cela, nous avons déjà besoin d'inclure la déclaration de cette classe à notre fichier :
 ```c++
 #include <escher.h>
 ```
@@ -61,8 +61,8 @@ class App : public ::App {
 
 ### Descriptor et Snapshot
 
-Malheureusement, bien que notre classe hérite d'une classe de Numworks, nous allons devoir écrire quelques lignes de codes un peu compliquées. Il s'agit de définir 2 classes internes, dérivant elles mêmes de 2 classes fournies par Numworks. La classe `Descriptor` permet d'indiquer le nom et l'icône de notre application. Le rôle de la classe `Snapshot` est moins clair pour moi, je pense qu'elle permet de sauver la classe dans la mémoire de la Numworks quand l'utilisateur quitte l'application pour pouvoir la restaurer quand il l'ouvre.
-Notre classe devient donc:
+Malheureusement, bien que notre classe hérite d'une classe de Numworks, nous allons devoir écrire quelques lignes de codes un peu compliquées. Il s'agit de définir 2 classes internes, dérivant elles-mêmes de 2 classes fournies par Numworks. La classe `Descriptor` permet d'indiquer le nom et l'icône de notre application. Le rôle de la classe `Snapshot` est moins clair pour moi, je pense qu'elle permet de sauver la classe dans la mémoire de la Numworks quand l'utilisateur quitte l'application pour pouvoir la restaurer quand il l'ouvre.
+Notre classe devient donc :
 ```c++
 class App : public ::App {
 public:
@@ -125,7 +125,7 @@ private:
 
 Une fois notre classe déclarée, il convient de coder son implémentation : ce qu'elle fait. Cela se fait dans un fichier .cpp. Créons donc `apps\reader\app.cpp`
 
-Commençons par inclure quelques fichiers de définition:
+Commençons par inclure quelques fichiers de définition :
 ```c++
 #include "app.h"
 #include "reader_icon.h"
