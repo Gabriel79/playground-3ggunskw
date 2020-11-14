@@ -1,4 +1,4 @@
-# La liste des livres
+# La liste des livres - première partie
 
 Nous allons maintenant réaliser un écran qui va lister les fichiers textes disponibles dans la mémoire  de la calculatrice. Pour cela il y a plusieurs choses à aborder : quels widgets (composant graphique) fournit Numworks pour réaliser un tel écran? Comment lister les fichiers textes de la mémoire?
 
