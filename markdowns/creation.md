@@ -1,10 +1,8 @@
 # Création du squelette de l'application
 
-Notre application va s'appeler `Reader`. Les applications sur la Numworks se trouve sous le répertoire `apps`. Chaque application a son propre répertoire. Nous allons donc créer notre répertoire `apps\reader`.
+Notre application va s'appeler `Reader`. Les applications sur la Numworks se trouvent sous le répertoire `apps`. Chaque application a son propre répertoire. Nous allons donc créer notre répertoire `apps\reader`.
 
-Dans ce répertoire nous allons créer le code de l'application. Toutes les applications sur la Numworks utilisent la même classe principale: App. Nous allons imiter les autres applications.
-
-En C/C++, le code d'une classe se répartit sur 2 fichiers (à la différence du java ou du python). On a d'abord un header reconnaissable à son extension .h ou .hpp qui déclare la classe, ses membres et ses fonctions. Ce fichier ne décrit généralement pas ce que font les fonctions, il expose juste leur existence.
+Dans ce répertoire nous allons créer le code de l'application. Toutes les applications sur la Numworks utilisent la même classe principale: App. Nous allons les imiter.
 
 ## Une classe ? un peu de vocabulaire
 
@@ -16,6 +14,7 @@ A partir d'une classe, qui définit un type, on peut créer des objets de ce typ
 `MyClass myInstace;`
 `myInstance` est une instance de la classe `MyClasse`.
 
+En C/C++, le code d'une classe se répartit sur 2 fichiers (à la différence du java ou du python). On a d'abord un header reconnaissable à son extension .h ou .hpp qui déclare la classe, ses membres et ses fonctions. Ce fichier ne décrit généralement pas ce que font les fonctions, il expose juste leur existence.
 
 ## Le header
 
@@ -36,7 +35,7 @@ La première ligne `#ifndef __APP__H__` indique que le compilateur ne traitera l
 
 ### Namespace
 
-Comme toutes les applications déclarent une class App, pour éviter les "collisions" de nom, chaque application déclare ses classes dans son propre "namespace". On peut rapprocher le concept de namespace du package en java. Nous allons donc utiliser notre propre namespace et mettre tout notre code dans un bloc tel que:
+Comme toutes les applications déclarent une class App, pour éviter les "collisions" de nom (2 classes ayant le même nom), chaque application déclare ses classes dans son propre "namespace". On peut rapprocher le concept de namespace du package en java. Nous allons donc utiliser notre propre namespace et mettre tout notre code dans un bloc tel que:
 ```c++
 namespace reader
 {
@@ -97,7 +96,7 @@ public:
 
 Les `override` derrière le nom des fonctions de `Descriptor` indique qu'on est en train de redéfinir une fonction de la classe dont on dérive. Ce mot clé est optionnel, mais c'est mieux de le mettre car il permet d'avoir une erreur de compilation si la signature de la fonction dans la classe dont on dérive venait à changer ou si on faisait une faute dans la signature de notre propre fonction qui ne serait alors pas appelée sans qu'il n'y ait d'erreur de compilation.
 
-Pour finir nous déclarons un constructeur à notre classe. Le constructeur est la fonction qui permet de créer une instance de notre classe, en pratique ce n'est pas nous qui instancierons notre classe mais un code générique de la Numworks.
+Pour finir nous déclarons un constructeur à notre classe. Le constructeur est la fonction qui permet de créer une instance de notre classe. L'instanciation de notre classe est faite par un code un peu compliqué (le `unpack` de la classe interne `Snapshot`), on ne veut pas que n'importe qui puisse instancier notre application, notre constructeur sera donc dans la section privée de la classe (derrière un `private:`), ce qui signifie
 ```c++
 App(Snapshot * snapshot);
 ```
@@ -154,7 +153,7 @@ Commençons par inclure quelques fichiers de définition :
 
 Le premier header "app.h" est le fichier que nous venons de créer. Je n'ai aucune idée de ce qu'est réellement le second `reader_icon.h`. `apps/apps_container.h` fournit un objet dont nous aurons besoin dans le constructeur de notre classe. Le dernier `apps/i8n.h` est un fichier contenant la traduction des chaînes de caractères utilisées dans les applications. En effet, pour rendre l'internationalisation plus simple, les applications évitent de contenir directement des chaînes de caractères dans leur code, mais utilisent un label qui avec un peu de magie sera transformé en la bonne chaînes de caractères selon la langue dans laquelle est configurée la calculatrice. Ce n'est pas totalement magique, il faudra bien traduire ces chaînes quelques part.
 
-Comme dans le header, nous allons mettre ensuite notre code dans notre namespace. Attention à ne pas mettre les includes dans le namespace. En effet, les includes recopient le contenu des headers dans notre fichier au moment de la compilation, mettre les includes dans notre namespace ajouterait ces définitions à notre namespace ce que nous ne voulons pas.
+Comme dans le header, nous allons mettre ensuite notre code dans notre namespace. Attention à ne pas mettre les includes dans le namespace. En effet, lors de la compilation, le précompilateur recopie tout le contenu des fichiers headers inclus dans notre fichier, mettre les includes dans notre namespace ajouterait ces définitions à notre namespace ce que nous ne voulons pas.
 
 ```c++
 namespace reader
@@ -205,11 +204,11 @@ App::Descriptor * App::Snapshot::descriptor()
 
 La fonction `unpack` crée une instance de notre class App en lui donnant en paramètre la zone de mémoire à utiliser (qui est fournit par `container->currentAppBuffer()`).
 
-La fonction `descriptor` renvoie elle le `Descriptor` de notre application en utilisant un pattern classique: le singleton. Il n'existe au sein de notre application qu'une seule instance du `Descriptor` celui déclaré à la ligne `static Descriptor descriptor;`. Le mot clé `static` lors de la déclaration de la variable indique que la variable continue d'exister même après la fin de la fonction et que si le programme repasse dans cette fonction il n'aura pas à déclarer une nouvelle variable mais réutilisera la variable du précédent appel.
+La fonction `descriptor` renvoie elle le `Descriptor` de notre application en utilisant un pattern classique: le singleton. Le singleton, garantit qu'il n'existe au sein de notre application qu'une seule instance du `Descriptor` celui déclaré à la ligne `static Descriptor descriptor;`. Le mot clé `static` lors de la déclaration de la variable indique que la variable continue d'exister même après la fin de la fonction et que si le programme repasse dans cette fonction il n'aura pas à déclarer une nouvelle variable mais réutilisera la variable du précédent appel.
 
 ### Constructeur
 
-Il manque encore le constructeur de votre classe, qui se contentera d'appeler le constructeur de la classe dont il hérite :
+Il manque encore le constructeur de notre classe, qui se contentera d'appeler le constructeur de la classe dont il hérite :
 ```c++
 App::App(Snapshot * snapshot) :
   ::App(snapshot, nullptr)
@@ -264,6 +263,8 @@ App::App(Snapshot * snapshot) :
 
 }
 ```
+
+Si la syntaxe n'est pas claire, ce n'est pas très important. Il s'agit d'un code un peu compliqué (à cause des classes internes). La syntaxe du C++ s'éclaircira au fils du tutoriel.
 
 
 ### Les fichiers de resources
@@ -320,7 +321,7 @@ $(eval $(call depends_on_image,apps/reader/app.cpp,apps/reader/reader_icon.png))
 ```
 
 La ligne `apps += reader::App` rajoute votre application à la liste des app de la calculatrice. `reader` correspond à votre namespace et `App` à votre classe principale (si votre application à un autre nom et namespace pensez y).
-dans `app_headers` vous mettez vos headers et dans `app_sreader_src` vos fichier sources, dans àpp_images` votre icône et dans ì18n_files` un peu de magie gère vos fichiers de traduction.
+dans `app_headers` vous mettez vos headers et dans `app_sreader_src` vos fichiers sources, dans `app_images` votre icône et dans `i18n_files` un peu de magie gère vos fichiers de traduction.
 
 
 ### Compilation

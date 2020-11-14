@@ -15,7 +15,7 @@ Pour information, le PATH est l'ensemble des répertoires où l'ordinateur cherc
 
 Ensuite, fermer et relancer MSys.
 
-Un IDE relativement simple et complet pour un débutant est [Visual Studio Code](https://code.visualstudio.com/), on le trouve sous linux, mac et windows, mais pour ce projet un bloc note et un terminal font l'affaire.
+En général, on aime coder dans un editeur de texte un peu enrichit, un IDE (Integrated Development Environment). [Visual Studio Code](https://code.visualstudio.com/) est assez simple et complet, on le trouve sous linux, mac et windows, mais pour ce projet un bloc note et un terminal font l'affaire.
 
 Une petite astuce pour ouvrir un terminal MSys dans Visual Studio Code, c'est de rajouter les 2 lignes suivantes dans le fichier de préférences (settings.json)
 ```json
@@ -32,7 +32,9 @@ Ne pas oublier le `--recursive` !
 
 #### La compilation
 
-Je vous conseille de compiler une première fois le repository pour vous assurer que votre chaîne de compilation fonctionne.
+Je vous conseille de compiler une première fois le repository (l'ensemble du code que vous venez de télécharger) pour vous assurer que votre chaîne de compilation fonctionne.
+
+Compiler consiste à transformer le code source d'une application en instructions binaires exécutable par un ordinateur.
 
 Pour compiler pour le simulateur de votre plateforme, allez dans le répertoire de votre repository:\
 `$ cd Omega`
@@ -59,7 +61,7 @@ sous windows:\
 `$ output/release/simulator/windows/epsilon.exe`
 
 sous linux:\
-Je n'ai pas de linux sous la main pour vous dire, mais ca doit ressembler à macos...
+`$ output/release/simulator/linux/epsilon.bin`
 
 Pour compiler pour la calculatrice vous trouvez toutes les informations sur [Omega](https://github.com/Omega-Numworks/Omega)
 
