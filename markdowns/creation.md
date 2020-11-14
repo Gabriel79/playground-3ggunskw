@@ -329,7 +329,7 @@ dans `app_headers` vous mettez vos headers et dans `app_sreader_src` vos fichier
 Il est temps de retourner à votre ligne de commande. Dans le répertoire `Omega`, il peut être préférable de commencer par nettoyer le précédent build, avec :\
 `make PLATFORM=simulator device=windows MODEL="n0110" clean`
 
-Il n'est pas nécessaire de faire ce `make clean` avant chaque compilation, la compilation suivante, recompilera tout et sera donc longue. Mais quand vous faites des modifications à autre chose que des fichiers .c ou .h, cela peut être nécessaire pour que tous les objets soient bien construits.
+Il n'est pas nécessaire de faire ce `make clean` avant chaque compilation. La compilation suivante recompilera tout et sera donc longue. Mais quand vous faites des modifications à autre chose que des fichiers .c ou .h, cela peut être nécessaire pour que tous les objets soient bien construits.
 
 Vous pouvez ensuite tenter une compilation:
 `make PLATFORM=simulator device=windows MODEL="n0110"`
