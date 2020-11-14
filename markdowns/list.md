@@ -1,6 +1,6 @@
 # La liste des livres - première partie
 
-Nous allons maintenant réaliser un écran qui va lister les fichiers textes disponibles dans la mémoire  de la calculatrice. Pour cela il y a plusieurs choses à aborder : quels widgets (composant graphique) fournit Numworks pour réaliser un tel écran? Comment lister les fichiers textes de la mémoire?
+Nous allons maintenant réaliser un écran qui va lister les fichiers textes disponibles dans la mémoire  de la calculatrice. Pour cela il y a plusieurs choses à aborder : quels widgets (composant graphique) fournit Numworks pour réaliser un tel écran ? Comment lister les fichiers textes de la mémoire ?
 
 Nous allons procéder par petites étapes successives.
 
@@ -8,7 +8,7 @@ Nous allons procéder par petites étapes successives.
 
 On va dans un premier temps rajouter le code nécessaire à ce que notre application puisse s'ouvrir sans planter la calculatrice.
 
-Lorsqu'on réalise une application avec un GUI (Graphical User Interface), un "pattern" fréquent est le MVC (Model-View-Controller). Ce pattern consiste à séparer le code en plusieurs ensembles de classes:
+Lorsqu'on réalise une application avec un GUI (Graphical User Interface), un "pattern" fréquent est le MVC (Model-View-Controller). Ce pattern consiste à séparer le code en plusieurs ensembles de classes :
 - un modèle qui représente ce que l'application manipule. En l'occurrence, dans notre cas, le modèle consistera en une collection de fichier texte.
 - une vue qui permet d'afficher tout ou partie du modèle, nous utiliserons une vue fournie par Numworks : la TableView qui permet d'afficher un tableau dans lequel nous listerons nos fichiers.
 - un contrôleur qui va faire le lien entre l'utilisateur, ses actions sur le modèle et la réaction de la vue.
@@ -50,7 +50,7 @@ public:
 };
 ```
 
-Notre contrôleur va donc devoir renvoyer une `View`. Nous allons dans un premier temps choisir d'utiliser une classe fournie par Numworks, la `TableView` qui permet d'afficher un tableau, dans lequel nous listerons les fichiers trouvés dans la mémoire de la numworks. Nous rajoutons donc un attribut `TableView` à notre classe. Ce membre sera privé, c'est à dire que seule les méthodes de la classe auront accès à cette variable. C'est en général une bonne pratique, en programmation orientée objet, de ne rendre public que ce qui est nécessaire. Par convention, pour distinguer les variables membres des classes des variables locales, je préfixe le nom des attributs de ma classe par un "m_".
+Notre contrôleur va donc devoir renvoyer une `View`. Nous allons dans un premier temps choisir d'utiliser une classe fournie par Numworks, la `TableView` qui permet d'afficher un tableau, dans lequel nous listerons les fichiers trouvés dans la mémoire de la numworks. Nous rajoutons donc un attribut `TableView` à notre classe. Ce membre sera privé, c'est à dire que seules les méthodes de la classe auront accès à cette variable. C'est en général une bonne pratique, en programmation orientée objet, de ne rendre public que ce qui est nécessaire. Par convention, pour distinguer les variables membres des classes des variables locales, je préfixe le nom des attributs de ma classe par un "m_".
 
 ```c++
 class ListBookController : public ViewController`
@@ -62,9 +62,9 @@ private:
 };
 ```
 
-Notre classe va également avoir besoin d'un constructeur, et devra également appeler le constructeur de `ViewController` dont elle dérive, or ce constructeur prend en paramètre un `Responder`. Notre constructeur prendra donc en paramètre un `Responder`. Vous vous demandez peut-être comment je sais que le constructeur du `ViewController` prend en paramètre un `Responder`? En fait, tout le code de la Numworks est accessible. Vous pouvez donc aller consulter le header définissant la class `ViewController` dans le fichier `escher\include\escher\view_controller.h`. La librairie `escher` contient tout ce qui sert à construire une interface utilisateur (View et Controller). Il est d'ailleurs temps de rajouter l'include du header : `#include <escher.h>` en haut de notre fichier (entre les includes guard et le namespace).
+Notre classe va également avoir besoin d'un constructeur, et devra également appeler le constructeur de `ViewController` dont elle dérive, or ce constructeur prend en paramètre un `Responder`. Notre constructeur prendra donc en paramètre un `Responder`. Vous vous demandez peut-être comment je sais que le constructeur du `ViewController` prend en paramètre un `Responder` ? En fait, tout le code de la Numworks est accessible. Vous pouvez donc aller consulter le header définissant la class `ViewController` dans le fichier `escher\include\escher\view_controller.h`. La librairie `escher` contient tout ce qui sert à construire une interface utilisateur (View et Controller). Il est d'ailleurs temps de rajouter l'include du header : `#include <escher.h>` en haut de notre fichier (entre les includes guard et le namespace). L'inclusion de ce header nous permettra d'utiliser toutes les classes de la librairie. Chaque classe est définie dans son propre header mais `escher.h` les inclut tous. Inclure ce header est plus pratique qu'inclure chacun unitairement au prix d'une compilation un peu plus lente.
 
-Notre fichier aura cette tête là:
+Notre fichier aura cette tête là :
 ```c++
 #ifndef __LIST_BOOK_CONTROLLER_H__
 #define __LIST_BOOK_CONTROLLER_H__
@@ -109,22 +109,22 @@ View* ListBookController::view()
     return &m_tableView;
 }
 ```
-Simple? Si c'est vos premiers pas en C++, par forcément. Vous vous demandez peut-être le sens du `*` et du `&` devant `m_tableView`. C'est là qu'on entre dans une des petites difficultés du C++ : les pointeurs.
+Simple ? Si c'est vos premiers pas en C++, par forcément. Vous vous demandez peut-être le sens du `*` et du `&` devant `m_tableView`. C'est là qu'on entre dans une des petites difficultés du C++ : les pointeurs.
 
 #### Les pointeurs
-Un pointeur est une variable qui contient l'adresse mémoire d'un objet. Pour distinguer une variable qui contiendrait l'objet lui même d'un pointeur, on utilise le symbole `*`. Par exemple lorsqu'on écrit\
+Un pointeur est une variable qui contient l'adresse mémoire d'un objet. Pour distinguer une variable qui contiendrait l'objet lui-même d'un pointeur, on utilise le symbole `*`. Par exemple lorsqu'on écrit\
 `TableView tableView;`\
 `tableView` est une variable contenant tout l'objet `TableView`.\
 Quand on écrit:
 `TableView* pTableView = nullptr;`\
-`pTableView` est un pointeur qui ne pointe vers rien, il contient l'adresse 0 (`nullptr` ou `NULL`). Mais on peut le faire pointer vers un `TableView` en récupérant l'adresse d'un objet `TableView`, c'est là qu'intervient le '&'. `&tableView` est l'adresse de l'objet `tableView`. Ainsi si on écrit:
+`pTableView` est un pointeur qui ne pointe vers rien, il contient l'adresse 0 (`nullptr` ou `NULL`). Mais on peut le faire pointer vers un `TableView` en récupérant l'adresse d'un objet `TableView`, c'est là qu'intervient le '&'. `&tableView` est l'adresse de l'objet `tableView`. Ainsi si on écrit :
 ```c++
 TableView tableView;
 TableView* pTableView = &tableView;
 ```
 on met l'adresse de l'objet `tableView` dans `pTableView`. Cela permettra de manipuler l'objet `tableView` via `pTableView`.
 
-Notre fonction `getView()` renvoie donc l'adresse de l'objet `m_tableView`, autrement dit un pointeur vers le membre `m_tableView`. Mais pourquoi ne pas renvoyer l'objet directement? En fait un objet occupe un certain espace dans la mémoire, une fois qu'il est créé, on ne peut pas le déplacer. Si on voulait que notre méthode renvoie un `TableView` et non un `TableView*` elle renverrait en fait une copie de notre objet, ce qui est possible, mais n'est pas ce qu'on veut dans notre cas.
+Notre fonction `getView()` renvoie donc l'adresse de l'objet `m_tableView`, autrement dit un pointeur vers le membre `m_tableView`. Mais pourquoi ne pas renvoyer l'objet directement ? Si on voulait que notre méthode renvoie un `TableView` et non un `TableView*` elle renverrait en fait une copie de notre objet, ce qui est possible, mais n'est pas ce qu'on veut dans notre cas.
 
 
 #### Le constructeur
@@ -144,9 +144,9 @@ En réalité le constructeur précédent ne fonctionnera pas. En effet, le const
 
 ### Retour vers le header
 
-En C++ une classe peut hériter de plusieurs classe, ainsi notre `ListBookController` sera à la fois un `ViewController`, un `TableViewDataSource` et un `ScrollViewDataSource`. Hériter d'une classe signifie récupérer toutes ses méthodes et attributs. On pourrait dériver directement de `TableViewDataSource` mais cette classe est abstraite et nous demanderait d'implémenter de nombreuses fonctions. Nous allons dériver d'une autre classe `SimpleListViewDataSource` qui elle même dérive de `TableViewDataSource`, cette classe est également abstraite mais nous demandera d'implémenter un peu moins de méthodes.
+En C++ une classe peut hériter de plusieurs classes, ainsi notre `ListBookController` sera à la fois un `ViewController`, un `TableViewDataSource` et un `ScrollViewDataSource`. Hériter d'une classe signifie récupérer toutes ses méthodes et attributs. On pourrait dériver directement de `TableViewDataSource` mais cette classe est abstraite et nous demanderait d'implémenter de nombreuses fonctions. Nous allons dériver d'une autre classe `SimpleListViewDataSource` qui elle-même dérive de `TableViewDataSource`, cette classe est également abstraite mais nous demandera d'implémenter un peu moins de méthodes.
 
-Comment savoir quelle méthodes une classe abstraite nous demande d'implémenter? Soit en allant voir sa déclaration dans son header (par exemple `escher\include\escher\simple_list_view_data_source.h`, soit en compilant, le compilateur indiquera dans ses erreurs quelles méthodes manquent pour que nous puissions instancier notre classe. Comment ai-je trouvé qu'il serait plus pratique de dériver de `SimpleListViewDataSource` que de `TableViewDataSource`? Pour cela il faut trouver quelle classe dérive d'une classe donnée, on peut trouver cette information dans des [doc en ligne](https://udxs.me/EpsilonDocs/class_list_view_data_source.html). `ScrollViewDataSource` est une classe concrète, en dériver ne nous demandera aucun effort. Rajoutons ce double héritage et ces nouvelles méthodes à implémenter:
+Comment savoir quelle méthodes une classe abstraite nous demande d'implémenter ? Soit en allant voir sa déclaration dans son header (par exemple `escher\include\escher\simple_list_view_data_source.h`, soit en compilant, le compilateur indiquera dans ses erreurs quelles méthodes manquent pour que nous puissions instancier notre classe. Comment ai-je trouvé qu'il serait plus pratique de dériver de `SimpleListViewDataSource` que de `TableViewDataSource`? Pour cela il faut trouver quelle classe dérive d'une classe donnée, on peut trouver cette information dans des [doc en ligne](https://udxs.me/EpsilonDocs/class_list_view_data_source.html). `ScrollViewDataSource` est une classe concrète, en dériver ne nous demandera aucun effort. Rajoutons ce double héritage et ces nouvelles méthodes à implémenter :
 ```c++
 class ListBookController : public ViewController, public SimpleListViewDataSource, public ScrollViewDataSource
 {
@@ -181,7 +181,7 @@ KDCoordinate ListBookController::cellHeight()
     return 50;
 }
 ```
-Qu'est ce qu'un `KDCoordinate`? c'est en réalité un petit int (sur 16 bits)
+Qu'est ce qu'un `KDCoordinate`? c'est en réalité un type définie par Numworks pour contenir un petit int (sur 16 bits)
 
 Les 2 suivantes sont un peu plus techniques, pour l'instant, tant qu'on n'affiche rien, on ne va pas s'attarder dessus. On y reviendra plus tard.
 ```c++
@@ -198,7 +198,7 @@ int ListBookController::reusableCellCount() const
 
 ### Le Makefile
 
-Nous venons de rajouter un fichier .cpp. Il faut le rajouter au Makefile pour qu'il soit compilé, la section `app_source` devient ainsi:
+Nous venons de rajouter un fichier .cpp. Il faut le rajouter au Makefile pour qu'il soit compilé, la section `app_source` devient ainsi :
 ```Makefile
 app_sreader_src = $(addprefix apps/reader/,\
   app.cpp \
@@ -210,10 +210,10 @@ app_sreader_src = $(addprefix apps/reader/,\
 
 On y est presque. Nous avons maintenant une classe `ListBookController`, il nous faut encore l'utiliser. 
 
-N'oublions pas de rajouter en haut du fichier `apps\reader\app.h` l'include suivant:\
+N'oublions pas de rajouter en haut du fichier `apps\reader\app.h` l'include suivant :\
 `#include "list_book_controller.h"`
 
-Puis rajoutons un membre `ListBookController m_listBookController` à notre classe `App` qui devient:
+Puis rajoutons un membre `ListBookController m_listBookController` à notre classe `App` qui devient :
 ```c++
 class App : public ::App {
 public:
