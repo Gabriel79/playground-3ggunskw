@@ -38,19 +38,19 @@ class ListBookController : public ViewController`
 };
 ```
 
-La classe `ViewController` de Numworks est une classe dîte abstraite, cela signifie qu'elle déclare une méthode `View* getView()`  non implémentée (qui n'a pas de définition), on le sait à sa déclaration que l'on trouve dans le header `escher\include\escher\view_controller.h`:\
+La classe `ViewController` de Numworks est une classe dite abstraite, cela signifie qu'elle déclare une méthode `View* getView()`  non implémentée (qui n'a pas de définition, pas de code), on le sait au `=0` à la fin sa déclaration que l'on trouve dans le header `escher\include\escher\view_controller.h`:\
 `virtual View* view() = 0;`\
- elle est dite "virtual pure". Pour que notre classe ne soit pas également abstraite, ce qui signifierait qu'on ne peut pas l'instancier (créer des objets de cette classe), il nous faut implémenter cette méthode. Nous la rajoutons donc à la définition de notre classe. Cette méthode sera "public", c'est à dire qu'elle sera visible par les autres classes du programme.
+ elle est dite "virtual pure". Pour que notre classe ne soit pas également abstraite, ce qui signifierait qu'on ne peut pas l'instancier (créer des objets de cette classe), il nous faut implémenter cette méthode. Nous la rajoutons donc à la définition de notre classe. Cette méthode sera `public`, c'est à dire qu'elle sera visible par les autres classes du programme.
 
 ```c++
-class ListBookController : public ViewController`
+class ListBookController : public ViewController
 {
 public:
     View* view() override;
 };
 ```
 
-Notre contrôleur va donc devoir renvoyer une `View`. Nous allons dans un premier temps choisir d'utiliser une classe fournie par Numworks, la `TableView` qui permet d'afficher un tableau, dans lequel nous listerons les fichiers trouvés dans la mémoire de la numworks. Nous rajoutons donc un attribut `TableView` à notre classe. Ce membre sera privé, c'est à dire que seules les méthodes de la classe auront accès à cette variable. C'est en général une bonne pratique, en programmation orientée objet, de ne rendre public que ce qui est nécessaire. Par convention, pour distinguer les variables membres des classes des variables locales, je préfixe le nom des attributs de ma classe par un "m_".
+Notre contrôleur va donc devoir renvoyer une `View`. Nous allons dans un premier temps choisir d'utiliser une classe fournie par Numworks, la `TableView` qui permet d'afficher un tableau, dans lequel nous listerons les fichiers trouvés dans la mémoire de la numworks. Nous rajoutons donc un attribut `TableView` à notre classe. Ce membre sera privé, c'est à dire que seules les méthodes de la classe auront accès à cette variable. C'est en général une bonne pratique, en programmation orientée objet, de ne rendre public que ce qui est nécessaire. Par convention, pour distinguer les variables membres des classes des variables locales à une méthode, je préfixe le nom des attributs de ma classe par un "m_".
 
 ```c++
 class ListBookController : public ViewController`
@@ -62,7 +62,7 @@ private:
 };
 ```
 
-Notre classe va également avoir besoin d'un constructeur, et devra également appeler le constructeur de `ViewController` dont elle dérive, or ce constructeur prend en paramètre un `Responder`. Notre constructeur prendra donc en paramètre un `Responder`. Vous vous demandez peut-être comment je sais que le constructeur du `ViewController` prend en paramètre un `Responder` ? En fait, tout le code de la Numworks est accessible. Vous pouvez donc aller consulter le header définissant la class `ViewController` dans le fichier `escher\include\escher\view_controller.h`. La librairie `escher` contient tout ce qui sert à construire une interface utilisateur (View et Controller). Il est d'ailleurs temps de rajouter l'include du header : `#include <escher.h>` en haut de notre fichier (entre les includes guard et le namespace). L'inclusion de ce header nous permettra d'utiliser toutes les classes de la librairie. Chaque classe est définie dans son propre header mais `escher.h` les inclut tous. Inclure ce header est plus pratique qu'inclure chacun unitairement au prix d'une compilation un peu plus lente.
+Notre classe va également avoir besoin d'un constructeur, et devra également appeler le constructeur de `ViewController` dont elle dérive, or ce constructeur prend en paramètre un `Responder`. Notre constructeur devra donc prendre également en paramètre un `Responder`. Vous vous demandez peut-être comment je sais que le constructeur du `ViewController` a besoin d'un `Responder` ? En fait, tout le code de la Numworks est accessible. Vous pouvez donc aller consulter le header définissant la class `ViewController` dans le fichier `escher\include\escher\view_controller.h`. La librairie `escher` contient tout ce qui sert à construire une interface utilisateur (View et Controller). Il est d'ailleurs temps de rajouter l'include du header : `#include <escher.h>` en haut de notre fichier (entre les includes guard et le namespace). L'inclusion de ce header nous permettra d'utiliser toutes les classes de la librairie. Chaque classe est définie dans son propre header mais `escher.h` les inclut tous. Inclure ce header est plus pratique qu'inclure chacun unitairement au prix d'une compilation un peu plus lente.
 
 Notre fichier aura cette tête là :
 ```c++
@@ -283,4 +283,3 @@ et
 
 ![Ecran vide](../list-ecran_vide.png)
 
-A suivre!

@@ -4,7 +4,7 @@ Notre application va s'appeler `Reader`. Les applications sur la Numworks se tro
 
 Dans ce répertoire nous allons créer le code de l'application. Toutes les applications sur la Numworks utilisent la même classe principale: App. Nous allons les imiter.
 
-## Une classe ? un peu de vocabulaire
+## Une classe ? Un peu de vocabulaire
 
 En programmation orientée objet, on regroupe les variables et les fonctions dans des objets que l'on définit dans ce qu'on appelle une classe. Les variables sont les "attributs" ou des "propriété" de la classe, et on appelle en général les fonctions d'une classe "méthodes". On entend en général par "membres" de la classe les propriétés et les méthodes.
 
@@ -29,7 +29,7 @@ Les headers commencent et finissent toujours par un bout de code un peu particul
 ...
 #endif
 ```
-On appelle ce pattern des "include guard", ces instructions s'adressent au pre-compilateur et évite de déclarer plusieurs fois les mêmes classes.
+On appelle ce pattern des "[include guard](https://fr.wikipedia.org/wiki/Include_guard)", ces instructions s'adressent au pre-compilateur et évite de déclarer plusieurs fois les mêmes classes.
 
 La première ligne `#ifndef __APP__H__` indique que le compilateur ne traitera la suite du fichier jusqu'au `#endif` que si la variable `__APP__H__` n'est pas définie. Si c'est le cas, la seconde ligne `#define __APP__H__` définie cette variable pour que la prochaine fois que le compilateur traite ce fichier, il ignore tout le contenu.
 
@@ -151,7 +151,7 @@ Commençons par inclure quelques fichiers de définition :
 #include "apps/i18n.h"
 ```
 
-Le premier header "app.h" est le fichier que nous venons de créer. Je n'ai aucune idée de ce qu'est réellement le second `reader_icon.h`. `apps/apps_container.h` fournit un objet dont nous aurons besoin dans le constructeur de notre classe. Le dernier `apps/i8n.h` est un fichier contenant la traduction des chaînes de caractères utilisées dans les applications. En effet, pour rendre l'internationalisation plus simple, les applications évitent de contenir directement des chaînes de caractères dans leur code, mais utilisent un label qui avec un peu de magie sera transformé en la bonne chaînes de caractères selon la langue dans laquelle est configurée la calculatrice. Ce n'est pas totalement magique, il faudra bien traduire ces chaînes quelques part.
+Le premier header "app.h" est le fichier que nous venons de créer. Je n'ai aucune idée de ce qu'est réellement le second `reader_icon.h`. `apps/apps_container.h` fournit un objet dont nous aurons besoin dans le constructeur de notre classe. Le dernier `apps/i8n.h` est un fichier contenant la traduction des chaînes de caractères utilisées dans les applications. En effet, pour rendre l'internationalisation plus simple, les applications évitent de contenir directement des chaînes de caractères dans leur code, mais utilisent un label qui sera transformé en la bonne chaînes de caractères selon la langue dans laquelle est configurée la calculatrice.
 
 Comme dans le header, nous allons mettre ensuite notre code dans notre namespace. Attention à ne pas mettre les includes dans le namespace. En effet, lors de la compilation, le précompilateur recopie tout le contenu des fichiers headers inclus dans notre fichier, mettre les includes dans notre namespace ajouterait ces définitions à notre namespace ce que nous ne voulons pas.
 
@@ -345,11 +345,13 @@ sous macos:\
 sous windows:\
 `$ output/release/simulator/windows/epsilon.exe`
 
+sous linux:\
+`$ output/release/simulator/linux/epsilon.bin`
+
 Normalement votre application devrait apparaître dans le simulateur. Vous pouvez essayer de la lancer, mais elle va faire se crasher le simulateur ou votre calculatrice...
 ![Ecran d'accueil avec votre app](../creation-accueil_numworks.png)
 
 ### On sauvegarde
 
-Une bonne habitude à prendre est d'utiliser git pour sauvegarder votre code. Quand une version marche, submittez votre code dans git, cela vous permettra de revenir à une version qui marchait si vous êtes perdu.
+Une bonne habitude à prendre est d'utiliser [git](https://git-scm.com/) pour sauvegarder votre code. Git est inclus dans Visual Studio Code, il s'agit d'un gestionnaire de code source, il stock l'historique de vos modifications, ce qui permet de revenir en arrière, d'essayer des choses sans perdre une version qui marche.
 
-Pour la suite, il va falloir patienter un peu...

@@ -8,4 +8,6 @@ plan:
   statement: markdowns/creation.md
 - title: La liste des livres - première partie
   statement: markdowns/list.md
+- title: La liste des livres - deuxième partie
+  statement: markdowns/list-2.md
   
