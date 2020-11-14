@@ -2,7 +2,7 @@
 
 Notre application va s'appeler `Reader`. Les applications sur la Numworks se trouve sous le répertoire `apps`. Chaque application a son propre répertoire. Nous allons donc créer notre répertoire `apps\reader`.
 
-Dans ce répertoire nous allons créer le code de l'application. Toutes les applications sur la Numworks utilisent la même classe principale : App. Nous allons imiter les autres applications.
+Dans ce répertoire nous allons créer le code de l'application. Toutes les applications sur la Numworks utilisent la même classe principale: App. Nous allons imiter les autres applications.
 
 En C/C++, le code d'une classe se répartit sur 2 fichiers (à la différence du java ou du python). On a d'abord un header reconnaissable à son extension .h ou .hpp qui déclare la classe, ses membres et ses fonctions. Ce fichier ne décrit généralement pas ce que font les fonctions, il expose juste leur existence.
 
@@ -12,13 +12,18 @@ En programmation orientée objet, on regroupe les variables et les fonctions dan
 
 Une classe peut dériver d'une autre, on dit également "hériter" d'une autre. Celle qui hérite est dite "classe fille", celle dont on hérite "classe mère" ou "parent". Quand une classe hérite d'une autre, elle récupère les membres de la classe mère, cela évite d'avoir à les recoder. En C++ une classe peut dériver de plusieurs classes, cela peut rajouter un peu de complexité alors on essait de ne pas abuser de cet héritage dit "multiple".
 
+A partir d'une classe, qui définit un type, on peut créer des objets de ce type. On parle "d'instanciation" et on appelle un objet une "instance". Par exemple quand j'écris :\
+`MyClass myInstace;`
+`myInstance` est une instance de la classe `MyClasse`.
+
+
 ## Le header
 
 Nous créons donc un fichier `apps\reader\app.h`
 
 ### Header guard
 
-Les headers commencent et finissent toujours par un bout de code un peu particulier qu'il convient de comprendre :
+Les headers commencent et finissent toujours par un bout de code un peu particulier qu'il convient de comprendre :
 ```c++
 #ifndef __APP__H__
 #define __APP__H__
@@ -43,7 +48,7 @@ Au sein du namespace `reader`, le nom de notre classe sera `App`, mais vu de l'e
 
 ### La classe
 
-En C++, une classe se déclare de la façon suivante :
+En C++, une classe se déclare de la façon suivante :
 ```c++
 class App
 {
@@ -54,31 +59,35 @@ class App
 Attention à ne pas oublier le ";" final.
 
 
-En réalité, nous allons dériver notre classe `App` d'une classe `::App` fournie par Numworks. Pour cela, nous avons déjà besoin d'inclure la déclaration de cette classe à notre fichier :
+En réalité, nous allons dériver notre classe `App` d'une classe `::App` fournie par Numworks. Pour cela, nous avons déjà besoin d'inclure la déclaration de cette classe à notre fichier :
 ```c++
 #include <escher.h>
 ```
 
 Puis nous déclarons lors de la création de notre classe qu'elle hérite de la classe `::App` de Numworks. Cela nous évite d'écrire nous même une partie des fonctions dont toutes les applications ont besoin:
 ```c++
-class App : public ::App {
+class App : public ::App 
+{
 };
 ```
 
 ### Descriptor et Snapshot
 
 Malheureusement, bien que notre classe hérite d'une classe de Numworks, nous allons devoir écrire quelques lignes de codes un peu compliquées. Il s'agit de définir 2 classes internes, dérivant elles-mêmes de 2 classes fournies par Numworks. La classe `Descriptor` permet d'indiquer le nom et l'icône de notre application. Le rôle de la classe `Snapshot` est moins clair pour moi, je pense qu'elle permet de sauver la classe dans la mémoire de la Numworks quand l'utilisateur quitte l'application pour pouvoir la restaurer quand il l'ouvre.
-Notre classe devient donc :
+Notre classe devient donc :
 ```c++
-class App : public ::App {
+class App : public ::App 
+{
 public:
-  class Descriptor : public ::App::Descriptor {
+  class Descriptor : public ::App::Descriptor 
+  {
   public:
     I18n::Message name() override;
     I18n::Message upperName() override;
     const Image * icon() override;
   };
-  class Snapshot : public ::App::Snapshot {
+  class Snapshot : public ::App::Snapshot 
+  {
   public:
     App * unpack(Container * container) override;
     Descriptor * descriptor() override;
@@ -86,7 +95,7 @@ public:
 };
 ```
 
-Les `override` derrière le nom des fonctions de `Descriptor` indique qu'on est en train de surcharger une fonction de la classe dont on dérive. Ce mot clé est optionnel, mais c'est mieux de le mettre car il permet d'avoir une erreur de compilation si la signature de la fonction dans la classe dont on dérive venait à changer ou si on fait une faute dans la signature de notre propre fonction qui ne serait alors pas appelée sans qu'il n'y ait d'erreur de compilation.
+Les `override` derrière le nom des fonctions de `Descriptor` indique qu'on est en train de redéfinir une fonction de la classe dont on dérive. Ce mot clé est optionnel, mais c'est mieux de le mettre car il permet d'avoir une erreur de compilation si la signature de la fonction dans la classe dont on dérive venait à changer ou si on faisait une faute dans la signature de notre propre fonction qui ne serait alors pas appelée sans qu'il n'y ait d'erreur de compilation.
 
 Pour finir nous déclarons un constructeur à notre classe. Le constructeur est la fonction qui permet de créer une instance de notre classe, en pratique ce n'est pas nous qui instancierons notre classe mais un code générique de la Numworks.
 ```c++
@@ -102,17 +111,21 @@ Le fichier `apps\reader\app.h` aura donc cette tête là:
 
 #include <escher.h>
 
-namespace reader {
+namespace reader 
+{
 
-class App : public ::App {
+class App : public ::App 
+{
 public:
-  class Descriptor : public ::App::Descriptor {
+  class Descriptor : public ::App::Descriptor 
+  {
   public:
     I18n::Message name() override;
     I18n::Message upperName() override;
     const Image * icon() override;
   };
-  class Snapshot : public ::App::Snapshot {
+  class Snapshot : public ::App::Snapshot 
+  {
   public:
     App * unpack(Container * container) override;
     Descriptor * descriptor() override;
@@ -127,11 +140,11 @@ private:
 #endif
 
 ```
-## Les définitions
+## L'implémentation
 
-Une fois notre classe déclarée, il convient de coder son implémentation : ce qu'elle fait. Cela se fait dans un fichier .cpp. Créons donc `apps\reader\app.cpp`
+Une fois notre classe déclarée, il convient de coder son implémentation : ce qu'elle fait. Cela se fait dans un fichier .cpp. Créons donc `apps\reader\app.cpp`
 
-Commençons par inclure quelques fichiers de définition :
+Commençons par inclure quelques fichiers de définition :
 ```c++
 #include "app.h"
 #include "reader_icon.h"
@@ -155,15 +168,18 @@ namespace reader
 Puis au sein du namespace, nous allons commencer par fournir l'implémentation des fonctions de la classe `Descriptor`:
 
 ```c++
-I18n::Message App::Descriptor::name() {
+I18n::Message App::Descriptor::name() 
+{
   return I18n::Message::ReaderApp;
 }
 
-I18n::Message App::Descriptor::upperName() {
+I18n::Message App::Descriptor::upperName()
+{
   return I18n::Message::ReaderAppCapital;
 }
 
-const Image * App::Descriptor::icon() {
+const Image * App::Descriptor::icon() 
+{
   return ImageStore::ReaderIcon;
 }
 ```
@@ -175,11 +191,13 @@ La fonction `name` renvoie le nom de l'application, que nous allons définir ens
 L'implémentation de la class `Snapshot` est un peu plus compliquée.
 
 ```c++
-App * App::Snapshot::unpack(Container * container) {
+App * App::Snapshot::unpack(Container * container) 
+{
   return new (container->currentAppBuffer()) App(this);
 }
 
-App::Descriptor * App::Snapshot::descriptor() {
+App::Descriptor * App::Snapshot::descriptor() 
+{
   static Descriptor descriptor;
   return &descriptor;
 }
@@ -191,7 +209,7 @@ La fonction `descriptor` renvoie elle le `Descriptor` de notre application en ut
 
 ### Constructeur
 
-Il manque encore le constructeur de votre classe, qui se contentera d'appeler le constructeur de la classe dont il hérite:
+Il manque encore le constructeur de votre classe, qui se contentera d'appeler le constructeur de la classe dont il hérite :
 ```c++
 App::App(Snapshot * snapshot) :
   ::App(snapshot, nullptr)
@@ -210,25 +228,31 @@ Le fichier `apps\reader\app.c` aura cette tête là:
 #include "apps/i18n.h"
 
 
-namespace reader {
+namespace reader 
+{
 
-I18n::Message App::Descriptor::name() {
+I18n::Message App::Descriptor::name() 
+{
   return I18n::Message::ReaderApp;
 }
 
-I18n::Message App::Descriptor::upperName() {
+I18n::Message App::Descriptor::upperName() 
+{
   return I18n::Message::ReaderAppCapital;
 }
 
-const Image * App::Descriptor::icon() {
+const Image * App::Descriptor::icon() 
+{
   return ImageStore::ReaderIcon;
 }
 
-App * App::Snapshot::unpack(Container * container) {
+App * App::Snapshot::unpack(Container * container) 
+{
   return new (container->currentAppBuffer()) App(this);
 }
 
-App::Descriptor * App::Snapshot::descriptor() {
+App::Descriptor * App::Snapshot::descriptor()
+{
   static Descriptor descriptor;
   return &descriptor;
 }
@@ -244,7 +268,7 @@ App::App(Snapshot * snapshot) :
 
 ### Les fichiers de resources
 
-Comme dit précédemment l'internationalisation se fait au moyen de fichiers de ressources. Il y en a un par langue. Le plus simple est de copier les fichiers .i18n d'une autre application dans votre répertoire `apps\reader` puis de remplacer leur contenu par le votre :
+Comme dit précédemment l'internationalisation se fait au moyen de fichiers de ressources. Il y en a un par langue. Le plus simple est de copier les fichiers .i18n d'une autre application dans votre répertoire `apps\reader` puis de remplacer leur contenu par le votre :
 ```
 ReaderApp = "Reader"
 ReaderAppCapital = "READER"
@@ -268,6 +292,7 @@ Il faut ensuite inclure votre application aux applications à construire et à e
 
 Rajouter "reader" à la ligne:\
 `EPSILON_APPS ?= reader calculation rpn graph code statistics probability solver atom sequence regression settings external`
+
 La position de votre application sur cette ligne déterminera sa position dans les applications de la calculatrice. Je la met en tête pendant le développement c'est plus rapide pour tester...
 
 Ce fichier sert à configurer le "build" par défaut de la calculatrice. Vous pouvez ainsi changer le thème par défaut et d'autres paramètres.
@@ -300,7 +325,7 @@ dans `app_headers` vous mettez vos headers et dans `app_sreader_src` vos fichier
 
 ### Compilation
 
-Il est temps de retourner à votre ligne de commande. Dans le répertoire `Omega`, il peut être préférable de commencer par nettoyer le précédent build, avec :\
+Il est temps de retourner à votre ligne de commande. Dans le répertoire `Omega`, il peut être préférable de commencer par nettoyer le précédent build, avec :\
 `make PLATFORM=simulator device=windows MODEL="n0110" clean`
 
 Il n'est pas nécessaire de faire ce `make clean` avant chaque compilation, la compilation suivante, recompilera tout et sera donc longue. Mais quand vous faites des modifications à autre chose que des fichiers .c ou .h, cela peut être nécessaire pour que tous les objets soient bien construits.
