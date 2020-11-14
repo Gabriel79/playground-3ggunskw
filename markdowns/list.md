@@ -102,14 +102,14 @@ namespace reader
 ```
 
 
-Commençons par la méthode `getView` qui est la plus simple, elle doit juste renvoyer la `TableView` de notre classe.
+Commençons par la méthode `getView` qui est la plus simple, elle doit juste renvoyer la `TableView` de notre classe. Remarquez que la méthode est supposée renvoyer une `View` et non une `TableView`, or comme la classe `TableView` dérive de `View` on peut faire passer notre membre `m_tableView` pour une `View`. 
 ```c++
 View* ListBookController::view()
 {
     return &m_tableView;
 }
 ```
-Simple ? Si c'est vos premiers pas en C++, par forcément. Vous vous demandez peut-être le sens du `*` et du `&` devant `m_tableView`. C'est là qu'on entre dans une des petites difficultés du C++ : les pointeurs.
+Simple ? Si c'est vos premiers pas en C++, par forcément. Vous vous demandez peut-être le sens du `*` derrière `View` et du `&` devant `m_tableView`. C'est là qu'on entre dans une des petites difficultés du C++ : les pointeurs.
 
 #### Les pointeurs
 Un pointeur est une variable qui contient l'adresse mémoire d'un objet. Pour distinguer une variable qui contiendrait l'objet lui-même d'un pointeur, on utilise le symbole `*`. Par exemple lorsqu'on écrit\
@@ -145,6 +145,21 @@ En réalité le constructeur précédent ne fonctionnera pas. En effet, le const
 ### Retour vers le header
 
 En C++ une classe peut hériter de plusieurs classes, ainsi notre `ListBookController` sera à la fois un `ViewController`, un `TableViewDataSource` et un `ScrollViewDataSource`. Hériter d'une classe signifie récupérer toutes ses méthodes et attributs. On pourrait dériver directement de `TableViewDataSource` mais cette classe est abstraite et nous demanderait d'implémenter de nombreuses fonctions. Nous allons dériver d'une autre classe `SimpleListViewDataSource` qui elle-même dérive de `TableViewDataSource`, cette classe est également abstraite mais nous demandera d'implémenter un peu moins de méthodes.
+
+Un peu compliqué? le diagramme UML (Unified Modeling Langage) suivant résume ces relations d'héritage et devrait être plus simple à comprendre. On appelle cela un diagramme de classe et c'est un diagramme très utilisée en POO (Programmation Orientée Objet)
+
+<!---
+@startuml
+hide members
+abstract class TableViewDataSource
+abstract class SimpleListViewDataSource
+ViewController <|-- ListBookController 
+SimpleListViewDataSource <|-- ListBookController
+TableViewDataSource <|-- SimpleListViewDataSource
+ScrollViewDataSource <|-- ListBookController
+@enduml
+--->
+![diagramme](../list-diag_list_book_controller.png)
 
 Comment savoir quelle méthodes une classe abstraite nous demande d'implémenter ? Soit en allant voir sa déclaration dans son header (par exemple `escher\include\escher\simple_list_view_data_source.h`, soit en compilant, le compilateur indiquera dans ses erreurs quelles méthodes manquent pour que nous puissions instancier notre classe. Comment ai-je trouvé qu'il serait plus pratique de dériver de `SimpleListViewDataSource` que de `TableViewDataSource`? Pour cela il faut trouver quelle classe dérive d'une classe donnée, on peut trouver cette information dans des [doc en ligne](https://udxs.me/EpsilonDocs/class_list_view_data_source.html). `ScrollViewDataSource` est une classe concrète, en dériver ne nous demandera aucun effort. Rajoutons ce double héritage et ces nouvelles méthodes à implémenter :
 ```c++
