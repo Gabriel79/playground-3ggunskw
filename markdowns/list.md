@@ -39,14 +39,14 @@ class ListBookController : public ViewController`
 ```
 
 La classe `ViewController` de Numworks est une classe dîte abstraite, cela signifie qu'elle déclare une méthode `View* getView()`  non implémentée (qui n'a pas de définition), on le sait à sa déclaration que l'on trouve dans le header `escher\include\escher\view_controller.h`:\
-`virtual View* getView() = 0`\
+`virtual View* view() = 0;`\
  elle est dite "virtual pure". Pour que notre classe ne soit pas également abstraite, ce qui signifierait qu'on ne peut pas l'instancier (créer des objets de cette classe), il nous faut implémenter cette méthode. Nous la rajoutons donc à la définition de notre classe. Cette méthode sera "public", c'est à dire qu'elle sera visible par les autres classes du programme.
 
 ```c++
 class ListBookController : public ViewController`
 {
 public:
-    View* getView() override;
+    View* view() override;
 };
 ```
 
@@ -56,7 +56,7 @@ Notre contrôleur va donc devoir renvoyer une `View`. Nous allons dans un premie
 class ListBookController : public ViewController`
 {
 public:
-    View* getView() override;
+    View* view() override;
 private:
     TableView m_tableView;
 };
@@ -102,7 +102,7 @@ namespace reader
 ```
 
 
-Commençons par la méthode `getView` qui est la plus simple, elle doit juste renvoyer la `TableView` de notre classe. Remarquez que la méthode est supposée renvoyer une `View` et non une `TableView`, or comme la classe `TableView` dérive de `View` on peut faire passer notre membre `m_tableView` pour une `View`. 
+Commençons par la méthode `view` qui est la plus simple, elle doit juste renvoyer la `TableView` de notre classe. Remarquez que la méthode est supposée renvoyer une `View` et non une `TableView`, or comme la classe `TableView` dérive de `View` on peut faire passer notre membre `m_tableView` pour une `View`. 
 ```c++
 View* ListBookController::view()
 {
@@ -124,7 +124,7 @@ TableView* pTableView = &tableView;
 ```
 on met l'adresse de l'objet `tableView` dans `pTableView`. Cela permettra de manipuler l'objet `tableView` via `pTableView`.
 
-Notre fonction `getView()` renvoie donc l'adresse de l'objet `m_tableView`, autrement dit un pointeur vers le membre `m_tableView`. Mais pourquoi ne pas renvoyer l'objet directement ? Si on voulait que notre méthode renvoie un `TableView` et non un `TableView*` elle renverrait en fait une copie de notre objet, ce qui est possible, mais n'est pas ce qu'on veut dans notre cas.
+Notre fonction `view()` renvoie donc l'adresse de l'objet `m_tableView`, autrement dit un pointeur vers le membre `m_tableView`. Mais pourquoi ne pas renvoyer l'objet directement ? Si on voulait que notre méthode renvoie un `TableView` et non un `TableView*` elle renverrait en fait une copie de notre objet, ce qui est possible, mais n'est pas ce qu'on veut dans notre cas.
 
 
 #### Le constructeur
@@ -211,6 +211,16 @@ int ListBookController::reusableCellCount() const
 }
 ```
 
+Maintenant que notre `ListBookControler` dérive de `TableViewDataSource` et `ScrollViewDataSource`, on peut mettre à jour notre constructeur et passer notre contrôller en paramètre au constructeur de la `TableView`. Au sein d'une classe pour faire réfèrence à l'instance de la classe qu'on est en train de manipuler on utilise le pointeur : `this`. Il pointe vers l'instance en cours. C'est donc ce pointeur que nous donnons au constructeur de la `TableView`.
+
+```c++
+ListBookController::ListBookController(Responder * parentResponder):
+    ViewController(parentResponder),
+    m_tableView(this, this)
+{
+}
+```
+
 ### Le Makefile
 
 Nous venons de rajouter un fichier .cpp. Il faut le rajouter au Makefile pour qu'il soit compilé, la section `app_source` devient ainsi :
@@ -259,7 +269,7 @@ App::App(Snapshot * snapshot) :
 {
 }
 ```
-Plutôt que `nullptr` (qui faisait planter l'application si on essayer de la lancer), passons notre `m_listBookController` au constructeur de `::App`. Ce paramètre est le "root controller", le premier contrôleur, celui qui contrôlera l'application quand elle se lancera. Initialisons ensuite notre `ListBookController`, pour l'instant nous ne lui donnons pas de "parent responder" dans le constructeur, car pour l'instant il n'a pas de contrôleur parent.
+Plutôt que `nullptr` (qui faisait planter l'application si on essayer de la lancer), passons notre `m_listBookController` au constructeur de `::App`. Notez le `&` devant `m_listBookController`, on passe un pointeur vers notre `ListBookController`. Ce paramètre est le "root controller", le premier contrôleur, celui qui contrôlera l'application quand elle se lancera. Initialisons ensuite notre `ListBookController`, pour l'instant nous ne lui donnons pas de "parent responder" dans le constructeur, car pour l'instant il n'a pas de contrôleur parent.
 
 ## L'appli s'ouvre, enfin peut être...
 
