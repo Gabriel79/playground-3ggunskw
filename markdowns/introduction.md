@@ -3,7 +3,7 @@
 #### A qui s'adresse ce tuto ?
 Ce tuto s'adresse à des lycéens ayant acquis une calculatrice Numworks (plutôt la version n0110 qui dispose de plus de mémoire que la version n0100) et qui souhaitent coder leur propre application. Je vais donc donner quelques détails sur les outils, la programmation,... qui pourraient sembler assez inutiles à des développeurs un peu plus agés.
 
-Quelques connaissances de programmation dans un langage comme le python ou le java faciliteront certainement la compréhension de ces quelques pages. J'essayerais d'expliquer un peu les spécificités du C/C++ au fil de l'eau, mais si vous voulez vraiment apprendre ce langage, il vous faudra plus que ce tuto.
+Quelques connaissances de programmation dans un langage comme le python ou le java faciliteront certainement la compréhension de ces quelques pages. J'essayerai d'expliquer un peu les concepts de programmation orientée objet et les spécificités du C/C++ au fil de l'eau, mais si vous voulez vraiment apprendre ce langage, il vous faudra plus que ce tuto.
 
 #### La Numworks
 
@@ -13,11 +13,11 @@ Il faut avoir en tête que la Numworks est une machine un peu "light" en termes 
 
 #### L'application
 
-Le but de l'application que nous allons construire ensemble est de réaliser une liseuse de fichier texte, logiciel qui n'est pas présent sur la Numworks aujourd'hui. Cette petite application devrait vous permettre d'aborder assez de points pour vous permettre de développer votre propre application. 
+Le but de l'application que nous allons construire ensemble est de réaliser une liseuse de fichiers texte, avec l'idée de pouvoir lire des ebooks sur la calculatrice, logiciel qui n'est pas présent sur la Numworks aujourd'hui. Cette petite application devrait vous permettre d'aborder assez de points pour vous permettre de développer vos propres applications. 
 
 Nous allons réaliser 2 écrans, l'un utilisant une "vue" standard pour lister les livres disponibles sur la calculatrice, et une "vue" faite à la main pour afficher du texte à l'écran en codant manuellement le "word wrapping" et la scrollbar.
 
-Nous allons également voir comment sauver des informations dans la mémoire de la calculatrice pour nous souvenir du dernier endroit lu dans chaque livre.
+Nous allons également voir comment sauver des informations dans la mémoire de la calculatrice pour nous souvenir du dernier endroit lu dans chaque fichier texte.
 
 #### Moi
 

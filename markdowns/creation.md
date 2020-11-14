@@ -6,6 +6,12 @@ Dans ce répertoire nous allons créer le code de l'application. Toutes les appl
 
 En C/C++, le code d'une classe se répartit sur 2 fichiers (à la différence du java ou du python). On a d'abord un header reconnaissable à son extension .h ou .hpp qui déclare la classe, ses membres et ses fonctions. Ce fichier ne décrit généralement pas ce que font les fonctions, il expose juste leur existence.
 
+## Une classe ? un peu de vocabulaire
+
+En programmation orientée objet, on regroupe les variables et les fonctions dans des objets que l'on définit dans ce qu'on appelle une classe. Les variables sont les "attributs" ou des "propriété" de la classe, et on appelle en général les fonctions d'une classe "méthodes". On entend en général par "membres" de la classe les propriétés et les méthodes.
+
+Une classe peut dériver d'une autre, on dit également "hériter" d'une autre. Celle qui hérite est dite "classe fille", celle dont on hérite "classe mère" ou "parent". Quand une classe hérite d'une autre, elle récupère les membres de la classe mère, cela évite d'avoir à les recoder. En C++ une classe peut dériver de plusieurs classes, cela peut rajouter un peu de complexité alors on essait de ne pas abuser de cet héritage dit "multiple".
+
 ## Le header
 
 Nous créons donc un fichier `apps\reader\app.h`
