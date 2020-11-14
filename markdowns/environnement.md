@@ -17,6 +17,12 @@ Ensuite, fermer et relancer MSys.
 
 Un IDE relativement simple et complet pour un débutant est [Visual Studio Code](https://code.visualstudio.com/), on le trouve sous linux, mac et windows, mais pour ce projet un bloc note et un terminal font l'affaire.
 
+Une petite astuce pour ouvrir un terminal MSys dans Visual Studio Code, c'est de rajouter les 2 lignes suivantes dans le fichier de préférences (settings.json)
+```json
+    "terminal.integrated.shell.windows": "C:\\msys64\\usr\\bin\\bash.exe",
+    "terminal.integrated.shellArgs.windows": ["--login", "-i"]
+```
+
 #### Le code
 
 Une fois l'environnement de développement préparé, il vous faut cloner Omega sur votre ordinateur. Pour cela,  dans un terminal (MSys sous windows), exécutez la commande suivante :\
