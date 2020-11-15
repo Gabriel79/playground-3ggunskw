@@ -91,4 +91,37 @@ int ListBookController::numberOfRows() const
 
 ## Les cellules de la TableView
 
-A suivre...
+Nous avons maintenant du contenu à afficher dans notre `TableView`. Celle-ci est composée de "cellules" (`TableCell`). C'est nous qui devons les lui fournir, la `TableView` se contentant de gérer leur affichage au bon endroit. La `TableView`peut afficher un nombre infini de lignes, mais seulement quelques une sont visibles à un instant donné à l'écran, on va donc pouvoir "recycler" la cellule d'une ligne lorsqu'elle n'est pas visible à l'écran. C'est ce à quoi sert la méthode `reusableCell` de notre contrôleur.
+
+Souvenez-vous, nous avons du faire dériver notre classe `ListBookController` de `TableViewDataSource`, et en tant que data source de la `TableView` nous avons du implémenter différentes fonctions dont `reusableCell` et `reusableCellCount`. Pour l'instant nous n'avons pas vraiment codé ces fonctions. Il est temps de le faire.
+
+### Retour vers le header
+
+Vu la taille de l'écran de la numworks et la hauteur de nos cellules (que nous avons fixé à 50 dans la méthode `cellHeight`) nous pouvons nous contenter de manipuler 6 cellules, la `TableView` s'occupera de les recycler pour afficher nos potentiels 20 fichiers. Définissons cela dans une constante dans la zone `private` de notre class `ListBookController` :\
+`static const int NB_CELLS = 6;`
+
+Numworks fournit des classes pour des cellules "classiques". Elles dérivent de `HighlightCell`, on peut les retrouver dans cette [documentation](https://udxs.me/EpsilonDocs/class_message_table_cell.html). Nous allons utiliser une `MessageTableCell`. Pour cela rajoutons donc un tableau de ces cellules à notre classe :\
+`MessageTableCell m_cells[NB_CELLS];`
+
+### L'implémentation
+
+Nous pouvons maintenant coder pour de vrai `reusableCell` et `reusableCellCount` :
+```c++
+HighlightCell * ListBookController::reusableCell(int index)
+{
+    return &m_cells[index];
+}
+    
+int ListBookController::reusableCellCount() const
+{
+    return NB_CELLS;
+}
+```
+
+## Remplir une Cellule
+
+### Le header
+
+Nous fournissons maintenant des `TableCell` à la `TableView`. Il nous reste à remplir ces cellules avec le nom de nos fichiers. Pour cela il nous faut redéfinir une fonction
+
+Travail en cours !
