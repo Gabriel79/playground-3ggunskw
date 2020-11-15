@@ -81,7 +81,7 @@ ListBookController::ListBookController(Responder * parentResponder):
 
 On n'oublie pas également d'indiquer que notre tableau contient maintenant un fichier, en modifiant `m_nbFiles`.
 
-On va pouvoir maintenant modifier la fonction `numberOfRows` pour quelle renvoie le nombre de fichier dans notre tableau :
+On va pouvoir maintenant modifier la fonction `numberOfRows()` pour quelle renvoie le nombre de fichier dans notre tableau :
 ```c++
 int ListBookController::numberOfRows() const
 {
@@ -91,13 +91,13 @@ int ListBookController::numberOfRows() const
 
 ## Les cellules de la TableView
 
-Nous avons maintenant du contenu à afficher dans notre `TableView`. Celle-ci est composée de "cellules" (`TableCell`). C'est nous qui devons les lui fournir, la `TableView` se contentant de gérer leur affichage au bon endroit. La `TableView`peut afficher un nombre infini de lignes, mais seulement quelques une sont visibles à un instant donné à l'écran, on va donc pouvoir "recycler" la cellule d'une ligne lorsqu'elle n'est pas visible à l'écran. C'est ce à quoi sert la méthode `reusableCell` de notre contrôleur.
+Nous avons maintenant du contenu à afficher dans notre `TableView`. Celle-ci est composée de "cellules" (`TableCell`). C'est nous qui devons les lui fournir, la `TableView` se contentant de gérer leur affichage au bon endroit. La `TableView`peut afficher un nombre infini de lignes, mais seulement quelques une sont visibles à un instant donné à l'écran, on va donc pouvoir "recycler" la cellule d'une ligne lorsqu'elle n'est pas visible à l'écran. C'est ce à quoi sert la méthode `reusableCell()` de notre contrôleur.
 
-Souvenez-vous, nous avons du faire dériver notre classe `ListBookController` de `TableViewDataSource`, et en tant que data source de la `TableView` nous avons du implémenter différentes fonctions dont `reusableCell` et `reusableCellCount`. Pour l'instant nous n'avons pas vraiment codé ces fonctions. Il est temps de le faire.
+Souvenez-vous, nous avons du faire dériver notre classe `ListBookController` de `TableViewDataSource`, et en tant que data source de la `TableView` nous avons du implémenter différentes fonctions dont `reusableCell()` et `reusableCellCount()`. Pour l'instant nous n'avons pas vraiment codé ces fonctions. Il est temps de le faire.
 
 ### Retour vers le header
 
-Vu la taille de l'écran de la numworks et la hauteur de nos cellules (que nous avons fixé à 50 dans la méthode `cellHeight`) nous pouvons nous contenter de manipuler 6 cellules, la `TableView` s'occupera de les recycler pour afficher nos potentiels 20 fichiers. Définissons cela dans une constante dans la zone `private` de notre class `ListBookController` :\
+Vu la taille de l'écran de la numworks et la hauteur de nos cellules (que nous avons fixé à 50 dans la méthode `cellHeight()`) nous pouvons nous contenter de manipuler 6 cellules, la `TableView` s'occupera de les recycler pour afficher nos potentiels 20 fichiers. Définissons cela dans une constante dans la zone `private` de notre class `ListBookController` :\
 `static const int NB_CELLS = 6;`
 
 Numworks fournit des classes pour des cellules "classiques". Elles dérivent de `HighlightCell`, on peut les retrouver dans cette [documentation](https://udxs.me/EpsilonDocs/class_message_table_cell.html). Nous allons utiliser une `MessageTableCell`. Pour cela rajoutons donc un tableau de ces cellules à notre classe :\
@@ -105,7 +105,7 @@ Numworks fournit des classes pour des cellules "classiques". Elles dérivent de 
 
 ### L'implémentation
 
-Nous pouvons maintenant coder pour de vrai `reusableCell` et `reusableCellCount` :
+Nous pouvons maintenant coder pour de vrai `reusableCell()` et `reusableCellCount()` :
 ```c++
 HighlightCell * ListBookController::reusableCell(int index)
 {
@@ -122,6 +122,65 @@ int ListBookController::reusableCellCount() const
 
 ### Le header
 
-Nous fournissons maintenant des `TableCell` à la `TableView`. Il nous reste à remplir ces cellules avec le nom de nos fichiers. Pour cela il nous faut redéfinir une fonction
+Nous fournissons maintenant des `TableCell` à la `TableView`. Il nous reste à remplir ces cellules avec le nom de nos fichiers. Pour cela il nous faut redéfinir une fonction. Nous rajoutons donc cette fonction :\
+`void willDisplayCellForIndex(HighlightCell * cell, int index) override;`\
+à notre controlleur. Cette fonction va être appelée par la `TableView` à chaque fois qu'elle voudra afficher une cellule. Cette fonction nous passe en paramètre la cellule que nous devons remplir.
+
+Notre header devrait maintenant ressembler à ça:
+```c++
+#ifndef __LIST_BOOK_CONTROLLER_H__
+#define __LIST_BOOK_CONTROLLER_H__
+
+#include <escher.h>
+#include "apps/external/archive.h"
+
+namespace reader
+{
+
+class ListBookController : public ViewController, public SimpleListViewDataSource, public ScrollViewDataSource
+{
+public:
+    ListBookController(Responder * parentResponder);
+    View * view() override;
+
+    int numberOfRows() const override;
+    KDCoordinate cellHeight() override;
+    HighlightCell * reusableCell(int index) override;
+    int reusableCellCount() const override;
+    void willDisplayCellForIndex(HighlightCell * cell, int index) override;
+    
+private:
+    TableView m_tableView;
+
+    static const int NB_FILES = 20;
+    External::Archive::File m_files[NB_FILES];
+    int m_nbFiles = 0;
+
+    static const int NB_CELLS = 6;
+    MessageTableCell m_cells[NB_CELLS];
+};
+
+}
+#endif 
+```
+
+### L'implémentation
+
+Nous allons donc rajouter la définition suivante à notre fichier d'implémentation :
+```c++
+void ListBookController::willDisplayCellForIndex(HighlightCell * cell, int index)
+{
+    MessageTableCell* myTextCell = static_cast<MessageTableCell*>(cell);    
+    MessageTextView* textView = static_cast<MessageTextView*>(myTextCell->labelView());
+    textView->setText(m_files[index].name);
+    myTextCell->setMessageFont(KDFont::LargeFont);
+}
+```
+
+Cette fonction reçoit donc en paramètre la cellule à remplir. Cette cellule est passée sous la forme d'un pointeur vers une `HighlightCell`. Ce type est le type parent de toutes les cellules. Or en réalité la `TableView` nous donne une des cellules qu'on lui a au préalable donné dans `reusableCell`, nous connaissons donc le type réel de la cellule que nous recevons, c'est une `MessageTableCell`. Nous allons donc forcer le compilateur à considérer la variable  `cell` comme un pointeur vers une `MessageTableCell`. Cette opération s'appelle un "cast", et ce fait avec ce code : `static_cast<MessageTableCell*>(cell)`. Nous en stockons le résultat dans un nouveau pointeur `myTextCell` de type `MessageTableCell` qui pointe vers la même cellule mais maintenant connu par le compilateur sous le bon type, ce qui nous permettra d'appeler dessus des méthodes qui n'existaient pas dans le type initial `HighlightCell`.
+
+Pourquoi passer par une `HighlightCell`? la méthode `willDisplayCellForIndex(HighlightCell * cell, int index)` doit être implementée par tous les `TableViewDataSource`. Certaine `TableView` voudront afficher des images dans leur cellule, d'autres du texte, d'autre les 2... la méthode doit donc prendre une cellule la plus générique possible en paramètre pour marcher dans tous les contextes. Attention, un cast ne permet pas de transformer tout en n'importe quoi ! C'est bien parce que nos cellules (`m_cells` dans le `ListBookController` sont de type `MessageTableCell` qu'on peut faire le cast vers ce type).
+
+Maintenant qu'on a une `MessageTableCell`, on peut en récupérer sa vue au moyen de la méthode `labelView()`
 
 Travail en cours !
