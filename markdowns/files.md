@@ -122,7 +122,7 @@ bool stringEndsWith(const char* str, const char* pattern)
 
 ## Retour dans le `ListBookControler`
 
-Maintenant que nous avons notre petite fonction `stringEndsWith` utilisons la. Dans le constructeur de notre `ListBookControler` nous allons remplir notre tableau de fichiers `m_files`. Pour cela on fait juste une boucle sur tous les fichiers et pour chacun on teste son extension, si c'est bien un fichier .txt on le copie dans notre tableau. Notre constructeur devient:
+Maintenant que nous avons notre petite fonction `stringEndsWith` utilisons la. Dans le constructeur de notre `ListBookControler` nous allons remplir notre tableau de fichiers `m_files`. Pour cela on fait juste une boucle sur tous les fichiers et pour chacun on teste son extension, si c'est bien un fichier .txt on le copie dans notre tableau. Si on a remplit les 20 cases de notre tableau, on s'arrête, tant pis pour les autres fichiers texte. Notre constructeur devient:
 ```c++
 ListBookController::ListBookController(Responder * parentResponder):
     ViewController(parentResponder),
@@ -138,6 +138,8 @@ ListBookController::ListBookController(Responder * parentResponder):
         {
             m_files[m_nbFiles] = file;
             m_nbFiles++;
+            if(m_nbFiles == NB_FILES)
+                break;
         }
     }
 }
