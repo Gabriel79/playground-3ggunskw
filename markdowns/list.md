@@ -146,7 +146,7 @@ En réalité le constructeur précédent ne fonctionnera pas. En effet, le const
 
 En C++ une classe peut hériter de plusieurs classes, ainsi notre `ListBookController` sera à la fois un `ViewController`, un `TableViewDataSource` et un `ScrollViewDataSource`. Hériter d'une classe signifie récupérer toutes ses méthodes et attributs. On pourrait dériver directement de `TableViewDataSource` mais cette classe est abstraite et nous demanderait d'implémenter de nombreuses fonctions. Nous allons dériver d'une autre classe `SimpleListViewDataSource` qui elle-même dérive de `TableViewDataSource`, cette classe est également abstraite mais nous demandera d'implémenter un peu moins de méthodes.
 
-Un peu compliqué? le diagramme UML (Unified Modeling Langage) suivant résume ces relations d'héritage et devrait être plus simple à comprendre. On appelle cela un diagramme de classe et c'est un diagramme très utilisée en POO (Programmation Orientée Objet)
+Un peu compliqué ? Le diagramme UML (Unified Modeling Langage) suivant résume ces relations d'héritage et devrait être plus simple à comprendre. On appelle cela un diagramme de classe et il est très utilisé en POO (Programmation Orientée Objet)
 
 <!---
 @startuml

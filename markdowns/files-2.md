@@ -83,4 +83,36 @@ Quand nous travaillons sur le simulateur, nous avons accès aux librairies stand
 #endif 
 ```
 
-La fonction `opendir` permet d'ouvrir un répertoire, elle prend en paramètre son path et renvoie une structure `DIR`
+La fonction `opendir()` permet d'ouvrir un répertoire, elle prend en paramètre son path et renvoie une structure `DIR`. Pour parcourir le répertoire, il faut appeler `readdir()` répétitivement. Cette fonction renvoie une `dirent` (une structure signifiant probablement "directory entry") pour chaque élément du répertoire (fichier ou sous répertoire). Quand elle renvoie `NULL` c'est qu'on est arrivé au bout. Quand on a finit avec le répertoire, c'est mieux de le fermer avec `closedir()`. On va donc utiliser ce jeu de fonction pour lister les fichiers du répertoire courant (celui duquel on aura lancé le simulateur).
+
+```c++
+int filesWithExtension(const char* extension, External::Archive::File* files, int filesSize) 
+{
+  dirent *file;
+  DIR *d = opendir(".");
+  int nb = 0;
+  if (d) 
+  {
+    while ((file = readdir(d)) != NULL) 
+    {
+      if(stringEndsWith(dir->d_name, extension))
+      {
+        files[nb].name = strdup(file->d_name);//will probably leak
+        nb++;
+        if(nb == filesSize)
+            break;
+      }
+    }
+    closedir(d);
+  }
+  return nb;
+}
+```
+
+Vous avez normalement presque toutes les cartes en main pour comprendre ce code. L'appel à `strdup()` mérite probablement quelques explications. La structure `External::Archive::File` stock le nom du fichier dans son membre `name`, mais `name` n'est pas un tableau mais un pointeur, cela signifie que le `name` pointe vers une chaîne de caractère qui doit "exister" aussi longtemps que l'instance de `External::Archive::File` existera. 
+
+Sur la calculatrice, cela ne pose pas de problème, le nom du fichier se trouve dans une zone de la mémoire qui ne change que lorsqu'on upload une nouvelle archive TAR, il n'y a donc pas de danger à ce que `name` pointe cette zone de mémoire, elle sera toujours là. 
+
+Sur l'ordinateur, c'est autre chose. Le nom du fichier est dans la structure `dirent` qui est "tenue" par la structure `DIR`. Ce "tenue" signifie que lorsque la structure `DIR` est supprimée, la structure `dirent` l'est aussi et sa mémoire est recyclée, on ne peut donc pas continuer à pointer dessus (en pratique rien ne l'empêche, mais le nom du fichier risque de changer).
+
+La fonction `strdup()` permet de faire une copie d'une chaîne de caractère, nous dupliquons donc le nom depuis `dirent` pour en avoir une version qui sera tenue par notre structure `External::Archive::File`. Cela va fonctionner, mais ce n'est néanmoins pas propre car normalement quand la structure `External::Archive::File` est supprimée il faudrait libérer la mémoire occuper par la chaîne que nous avons dupliquée. Nous ne le ferons pas car pour notre usage quand la structure `External::Archive::File` est supprimée, c'est que nous quittons le simulateur.
