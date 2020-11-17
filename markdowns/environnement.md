@@ -29,6 +29,12 @@ Une fois l'environnement de développement préparé, il vous faut cloner Omega 
 `$ git clone --recursive https://github.com/Omega-Numworks/Omega.git`\
 Ne pas oublier le `--recursive` !
 
+Cela créera un répertoire `Omega` dans le répertoire où vous vous trouvez, le code source sera dedans, et c'est dedans que nous allons travailler. Si vous souhaitez créer votre espace de travail ailleurs que dans le répertoire qui s'ouvre au lancement de votre terminal, les commandes pour vous déplacer dans l'arborescence en utilisant la ligne de commandes sont :\
+`cd UnRepertoire` pour aller dans le répertoire `UnRepetoire` \
+`cd ..` pour revenir au répertoire parent\
+`mkDir Repertoire` pour créer un répertoire.\
+Sous MSys, pour changer de disque, c'est par exemple `$ cd /d/`
+
 
 #### La compilation
 
