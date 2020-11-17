@@ -72,7 +72,7 @@ int filesWithExtension(const char* extension, External::Archive::File* files, in
 }
 ```
 
-### Parcourir un répertoire sur l'ordinateur
+## Parcourir un répertoire sur l'ordinateur
 
 Quand nous travaillons sur le simulateur, nous avons accès aux librairies standards du C/C++. Nous allons donc les utiliser pour parcourir notre répertoire. Rajoutons quelques includes qui nous y donneront accès dans un bloc dédié au simulateur en haut du fichier (avec les autres includes). Nous utilisons la condition `#ifndef` plutôt que `#ifdef` ce coup ci, qui veut dire "si la variable n'est pas définie".
 ```C++
@@ -116,3 +116,8 @@ Sur la calculatrice, cela ne pose pas de problème, le nom du fichier se trouve 
 Sur l'ordinateur, c'est autre chose. Le nom du fichier est dans la structure `dirent` qui est "tenue" par la structure `DIR`. Ce "tenue" signifie que lorsque la structure `DIR` est supprimée, la structure `dirent` l'est aussi et sa mémoire est recyclée, on ne peut donc pas continuer à pointer dessus (en pratique rien ne l'empêche, mais le nom du fichier risque de changer).
 
 La fonction `strdup()` permet de faire une copie d'une chaîne de caractère, nous dupliquons donc le nom depuis `dirent` pour en avoir une version qui sera tenue par notre structure `External::Archive::File`. Cela va fonctionner, mais ce n'est néanmoins pas propre car normalement quand la structure `External::Archive::File` est supprimée il faudrait libérer la mémoire occuper par la chaîne que nous avons dupliquée. Nous ne le ferons pas car pour notre usage quand la structure `External::Archive::File` est supprimée, c'est que nous quittons le simulateur.
+
+## On essaie
+
+Je vous laisse retrouver la commande pour builder sur votre plateforme. N'oubliez pas de créer quelques fichiers .txt dans le répertoire duquel vous lancez le simulateur.
+
