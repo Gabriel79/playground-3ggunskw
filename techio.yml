@@ -10,4 +10,5 @@ plan:
   statement: markdowns/list.md
 - title: La liste des livres - deuxième partie
   statement: markdowns/list-2.md
-  
+- title: Lister des fichiers
+  statement: markdowns/files.md  
