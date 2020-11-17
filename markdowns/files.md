@@ -119,33 +119,39 @@ bool stringEndsWith(const char* str, const char* pattern)
 
 }
 ```
+## Parcourons les fichiers
 
-## Retour dans le `ListBookControler`
+Maintenant que nous avons notre petite fonction `stringEndsWith` utilisons la. Nous allons écrire une fonction qui va parcourir les fichiers présents sur la calculatrice et copier ceux qui qui finissent par une certaine extension dans un tableau passé en paramètre. La fonction prendra en paramètre la taille du tableau fourni, pour ne pas y mettre plus de fichier qu'on peut y stocker, et renverra le nombre de fichier effectivement ajouté au tableau. Cette fonction pourrait être utile dans d'autres contexte. Nous allons donc la déclarer dans notre fichier `utility.h` :\
+`int filesWithExtension(const char* extension, External::Archive::File* files, int filesSize) ;`
 
-Maintenant que nous avons notre petite fonction `stringEndsWith` utilisons la. Dans le constructeur de notre `ListBookControler` nous allons remplir notre tableau de fichiers `m_files`. Pour cela on fait juste une boucle sur tous les fichiers et pour chacun on teste son extension, si c'est bien un fichier .txt on le copie dans notre tableau. Si on a remplit les 20 cases de notre tableau, on s'arrête, tant pis pour les autres fichiers texte. Notre constructeur devient:
+Comme notre fonction fait référence au type `External::Archive::File` dans sa déclaration, ce type doit être au préalable déclaré. Pour cela nous devons rajouter l'include suivant en haut de notre fichier :\ 
+`#include <apps/external/archive.h>`
+
+Nous implémentons la fonction dans `utility.c` :
 ```c++
-ListBookController::ListBookController(Responder * parentResponder):
-    ViewController(parentResponder),
-    m_tableView(this, this)
+int filesWithExtension(const char* extension, External::Archive::File* files, int filesSize) 
 {
     size_t nbTotalFiles = External::Archive::numberOfFiles();
-
+    int nbFiles = 0;
     for(size_t i=0; i < nbTotalFiles; ++i)
     {
         External::Archive::File file;
         External::Archive::fileAtIndex(i, file);
         if(stringEndsWith(file.name, ".txt"))
         {
-            m_files[m_nbFiles] = file;
-            m_nbFiles++;
-            if(m_nbFiles == NB_FILES)
+            files[nbFiles] = file;
+            nbFiles++;
+            if(nbFiles == filesSize)
                 break;
         }
     }
+    return nbFiles;
 }
 ```
 
-Quelques remarques. `size_t` est un type qui contient des entiers positifs.
+Quelques remarques. Pour recevoir notre tableau en paramètre, la fonction accepte un pointeur vers sa première case. 
+
+`size_t` est un type qui contient des entiers positifs.
 
 On voit qu'on a déclaré un objet de type `File` s'appelant `file`, `file` n'est pas un pointeur, mais l'objet lui même. Quand on fait `m_files[m_nbFiles] = file` on copie tout le contenu de la structure `File` de `file` dans `m_files[m_nbFiles]`.
 
@@ -206,6 +212,18 @@ void main()
 }
 ```
 Le programme affichera 0, en effet le paramètre `b` recevra une copie de `i`, modifiera cette copie sans toucher à `i`.
+
+## Retour dans le `ListBookControler`
+
+ Dans le constructeur de notre `ListBookControler` nous allons appeler notre nouvelle fonction pour remplir notre tableau de fichiers `m_files`. Notre constructeur devient:
+```c++
+ListBookController::ListBookController(Responder * parentResponder):
+    ViewController(parentResponder),
+    m_tableView(this, this)
+{
+    m_nbFiles = filesWithExtension(".txt", m_files, NB_FILES);
+}
+```
 
 ## On essaie ?
 
