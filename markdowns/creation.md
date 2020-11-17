@@ -6,7 +6,7 @@ Dans ce répertoire nous allons créer le code de l'application. Toutes les appl
 
 ## Une classe ? Un peu de vocabulaire
 
-En programmation orientée objet, on regroupe les variables et les fonctions dans des objets que l'on définit dans ce qu'on appelle une classe. Les variables sont les "attributs" ou des "propriété" de la classe, et on appelle en général les fonctions d'une classe "méthodes". On entend en général par "membres" de la classe les propriétés et les méthodes.
+En programmation orientée objet, on regroupe les variables et les fonctions dans des objets que l'on définit dans ce qu'on appelle une classe. Les variables sont les "attributs" ou des "propriétés" de la classe, et on appelle en général les fonctions d'une classe "méthodes". On entend en général par "membres" de la classe les propriétés et les méthodes.
 
 Une classe peut dériver d'une autre, on dit également "hériter" d'une autre. Celle qui hérite est dite "classe fille", celle dont on hérite "classe mère" ou "parent". Quand une classe hérite d'une autre, elle récupère les membres de la classe mère, cela évite d'avoir à les recoder. En C++ une classe peut dériver de plusieurs classes, cela peut rajouter un peu de complexité alors on essait de ne pas abuser de cet héritage dit "multiple".
 
@@ -44,6 +44,8 @@ namespace reader
 ```
 
 Au sein du namespace `reader`, le nom de notre classe sera `App`, mais vu de l'extérieur son nom complet sera `reader::App`.
+
+On peut trouver du code en dehors de tout namespace, il fait parti alors d'un namespace racine, pour spécifier qu'on parle d'une classe dans le namespace racine on utilise`::`, par exemple `::App` est la classe `App` fournie par Numworks dans le namespace racine.
 
 ### La classe
 
