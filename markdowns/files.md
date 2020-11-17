@@ -234,9 +234,11 @@ void print(const UnGrosObjet& obj);
 ```
 la fonction évite la copie d'`UnGrosObjet` en le recevant par référence, mais le code appelant a la garantie que la fonction ne modifiera pas son objet.
 
+Ne peut-on pas faire la même chose avec les pointeurs? Si tout à fait, une différence néanmoins importante c'est qu'un pointeur peut être `NULL` alors qu'une référence référencera toujours quelque chose. Un avantage des références est de permettre la même syntaxe (avec des `.` plutôt que des `->` et pas de `*` pour déréférencer un pointeur) que le paramètre soit passé par référence ou par valeur.
+
 ## Retour dans le `ListBookControler`
 
- Dans le constructeur de notre `ListBookControler` nous allons appeler notre nouvelle fonction pour remplir notre tableau de fichiers `m_files`. Notre constructeur devient:
+Après cette digression, revenons à notre application. Dans le constructeur de notre `ListBookControler` nous allons appeler notre nouvelle fonction pour remplir notre tableau de fichiers `m_files`. Notre constructeur devient:
 ```c++
 ListBookController::ListBookController(Responder * parentResponder):
     ViewController(parentResponder),
