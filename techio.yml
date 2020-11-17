@@ -14,3 +14,5 @@ plan:
   statement: markdowns/files.md  
 - title: Lister des fichiers sur le simulateur
   statement: markdowns/files-2.md  
+- title: Une liste avec sélection
+  statement: markdowns/list-3.md  
