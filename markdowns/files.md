@@ -248,6 +248,11 @@ ListBookController::ListBookController(Responder * parentResponder):
 }
 ```
 
+et n'oublions pas d'inclure notre fichier `utility.h` dans `list_book_controller.cpp` !
+```c++
+#include "utility.h"
+```
+
 ## On essaie ?
 
 Si vous compilez et lancer le programme sur le simulateur il ne se passera probablement rien de nouveau. Au moment où j'écris ces lignes, la fonction qui liste les fichiers ne marche que sur la Numworks et pas sur le simulateur.

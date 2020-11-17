@@ -10,5 +10,7 @@ plan:
   statement: markdowns/list.md
 - title: La liste des livres - deuxième partie
   statement: markdowns/list-2.md
-- title: Lister des fichiers
+- title: Lister des fichiers sur la Numworks
   statement: markdowns/files.md  
+  - title: Lister des fichiers sur le simulateur
+  statement: markdowns/files-2.md  
