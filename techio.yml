@@ -12,5 +12,5 @@ plan:
   statement: markdowns/list-2.md
 - title: Lister des fichiers sur la Numworks
   statement: markdowns/files.md  
-  - title: Lister des fichiers sur le simulateur
+- title: Lister des fichiers sur le simulateur
   statement: markdowns/files-2.md  
