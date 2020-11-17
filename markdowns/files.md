@@ -258,4 +258,4 @@ puis après avoir branché la calculatrice :\
 
 Si vous lancez maintenant votre application sur la calculatrice, vous aurez la joie de ne voir rien de neuf! Il faudrait peut être mettre quelques fichiers texte dans votre calculatrice. Pour cela utilisez ce [site](https://omega-numworks.github.io/Omega-External/)
 
-A suivre...
+et voilà!
