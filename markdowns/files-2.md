@@ -95,7 +95,7 @@ int filesWithExtension(const char* extension, External::Archive::File* files, in
   {
     while ((file = readdir(d)) != NULL) 
     {
-      if(stringEndsWith(dir->d_name, extension))
+      if(stringEndsWith(file->d_name, extension))
       {
         files[nb].name = strdup(file->d_name);//will probably leak
         nb++;

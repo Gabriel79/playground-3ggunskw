@@ -1,5 +1,9 @@
 # Introduction
 
+Tout d'abord, ce tutoriel est encore en cours de d'écriture... c'est un peu long, mais je vais essayer d'avancer quotidiennement... 
+
+Si vous êtes bloqués quelque part, ou si des points méritent plus d'explications, n'hésitez pas à poster un commentaire !
+
 #### A qui s'adresse ce tuto ?
 Ce tuto s'adresse à des lycéens ayant acquis une calculatrice Numworks (plutôt la version n0110 qui dispose de plus de mémoire que la version n0100) et qui souhaitent coder leur propre application. Je vais donc donner quelques détails sur les outils, la programmation,... qui pourraient sembler assez inutiles à des développeurs un peu plus agés.
 
@@ -21,7 +25,7 @@ Nous allons également voir comment sauver des informations dans la mémoire de 
 
 #### Moi
 
-Pour information, je suis développeur C++, mais n'ai aucun lien avec Numworks. Le code de la Numworks est public, et a fait l'objet de quelques forks (projets dérivés) dont [Omega](https://github.com/Omega-Numworks/Omega) duquel je vais partir. Le code bien que public, est assez peu documenté, ce qui rend la courbe d'apprentissage très raide. Ce que je vais vous présenter, je l'ai déduit en étudiant le code des applications fournies avec la calculatrice, il se peut donc que je n'ai pas tout compris et que je raconte absolument n'importe quoi.
+Pour information, je suis développeur C++, mais n'ai aucun lien avec Numworks. Le code de la Numworks est public, et a fait l'objet de quelques forks (projets dérivés) dont [Omega](https://github.com/Omega-Numworks/Omega) duquel je vais partir. Le code bien que public, est assez peu documenté, ce qui rend la courbe d'apprentissage très raide. Ce que je vais vous présenter, je l'ai déduit en étudiant le code des applications fournies avec la calculatrice, il se peut donc que je n'ai pas tout compris et que je raconte absolument n'importe quoi (dans ce cas, postez un commentaire!).
 
 En développant cette application, je me suis heurté à quelques difficultés qui m'ont coûté 80% du temps total. Vous en rencontrerez aussi, il suffit d'une petite faute de frappe, ou d'un petit oubli pour perdre des heures... la programmation est ainsi, ce sont les erreurs qui font progresser.
 

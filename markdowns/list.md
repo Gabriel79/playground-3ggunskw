@@ -236,7 +236,9 @@ app_sreader_src = $(addprefix apps/reader/,\
 On y est presque. Nous avons maintenant une classe `ListBookController`, il nous faut encore l'utiliser. 
 
 N'oublions pas de rajouter en haut du fichier `apps\reader\app.h` l'include suivant :\
-`#include "list_book_controller.h"`
+```c++
+#include "list_book_controller.h"
+```
 
 Puis rajoutons un membre `ListBookController m_listBookController` à notre classe `App` qui devient :
 ```c++
@@ -275,7 +277,7 @@ Plutôt que `nullptr` (qui faisait planter l'application si on essayer de la lan
 
 Il est temps de compiler, et de lancer l'app. Pour l'instant, elle n'affichera qu'un écran blanc avec son titre...
 
-`make PLATFORM=simulator device=windows MODEL="n0110"`
+`$ make PLATFORM=simulator device=windows MODEL="n0110"`
 
 et
 

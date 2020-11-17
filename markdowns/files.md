@@ -121,11 +121,15 @@ bool stringEndsWith(const char* str, const char* pattern)
 ```
 ## Parcourons les fichiers
 
-Maintenant que nous avons notre petite fonction `stringEndsWith` utilisons la. Nous allons écrire une fonction qui va parcourir les fichiers présents sur la calculatrice et copier ceux qui qui finissent par une certaine extension dans un tableau passé en paramètre. La fonction prendra en paramètre la taille du tableau fourni, pour ne pas y mettre plus de fichier qu'on peut y stocker, et renverra le nombre de fichiers effectivement ajoutés au tableau. Cette fonction pourrait être utile dans d'autres contexte. Nous allons donc la déclarer dans notre fichier `utility.h` :\
+Maintenant que nous avons notre petite fonction `stringEndsWith` utilisons la. Nous allons écrire une fonction qui va parcourir les fichiers présents sur la calculatrice et copier ceux qui qui finissent par une certaine extension dans un tableau passé en paramètre. La fonction prendra en paramètre la taille du tableau fourni, pour ne pas y mettre plus de fichier qu'on peut y stocker, et renverra le nombre de fichiers effectivement ajoutés au tableau. Cette fonction pourrait être utile dans d'autres contexte. Nous allons donc la déclarer dans notre fichier `utility.h` :
+```c++
 `int filesWithExtension(const char* extension, External::Archive::File* files, int filesSize) ;`
+```
 
-Comme notre fonction fait référence au type `External::Archive::File` dans sa déclaration, ce type doit être au préalable déclaré. Pour cela nous devons rajouter l'include suivant en haut de notre fichier :\ 
-`#include <apps/external/archive.h>`
+Comme notre fonction fait référence au type `External::Archive::File` dans sa déclaration, ce type doit être au préalable déclaré. Pour cela nous devons rajouter l'include suivant en haut de notre fichier :\
+```c++
+#include <apps/external/archive.h>
+```
 
 Nous implémentons la fonction dans `utility.c` :
 ```c++
@@ -262,5 +266,8 @@ puis après avoir branché la calculatrice :\
 `$ make PLATFORM=device MODEL="n0110" epsilon_flash`
 
 Si vous lancez maintenant votre application sur la calculatrice, vous aurez la joie de ne voir rien de neuf! Il faudrait peut être mettre quelques fichiers texte dans votre calculatrice. Pour cela utilisez ce [site](https://omega-numworks.github.io/Omega-External/)
+
+
+![Liste de fichiers](../list-fichier.png)
 
 et voilà!
