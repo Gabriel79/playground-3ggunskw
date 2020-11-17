@@ -10,7 +10,7 @@ bool fileAtIndex(size_t index, File &entry);
 
 Nous allons utiliser ces fonctions pour parcourir tous les fichiers et filtrer ceux dont le nom finit par ".txt". Malheureusement, ni Omega ni Numworks ne fournissent de fonction pour filtrer les fichiers selon leur extension, ou je n'ai pas trouvé...
 
-Nous allons coder nous-même cette fonction que nous appellerons `stringEndsWith`. L'algorithme est assez simple, nous allons partir de la fin de l'extension et de la fin du nom du fichier et comparer les caractères en descendant vers le début de l'extension. Si les 2 caractères sont différents alors la fonction renvoie `false` sinon on continue jusqu'au début de l'extension.
+Nous allons coder nous-même cette fonctionalité au moyen de 2 fonctions. La première que nous appellerons `stringEndsWith` s'assurera qu'une chaîne de caractères passée se termine avec un certain motif (nous utiliserons ".txt" mais la fonction restera générique). L'algorithme est assez simple, nous allons partir de la fin de la chaîne et de la fin du motif et comparer les caractères en descendant vers le début du motif. Si les 2 caractères sont différents alors la fonction renvoie `false` sinon on continue jusqu'au début de l'extension.
 
 Voici la signature de la fonction :
 ```c++
@@ -121,7 +121,7 @@ bool stringEndsWith(const char* str, const char* pattern)
 ```
 ## Parcourons les fichiers
 
-Maintenant que nous avons notre petite fonction `stringEndsWith` utilisons la. Nous allons écrire une fonction qui va parcourir les fichiers présents sur la calculatrice et copier ceux qui qui finissent par une certaine extension dans un tableau passé en paramètre. La fonction prendra en paramètre la taille du tableau fourni, pour ne pas y mettre plus de fichier qu'on peut y stocker, et renverra le nombre de fichier effectivement ajouté au tableau. Cette fonction pourrait être utile dans d'autres contexte. Nous allons donc la déclarer dans notre fichier `utility.h` :\
+Maintenant que nous avons notre petite fonction `stringEndsWith` utilisons la. Nous allons écrire une fonction qui va parcourir les fichiers présents sur la calculatrice et copier ceux qui qui finissent par une certaine extension dans un tableau passé en paramètre. La fonction prendra en paramètre la taille du tableau fourni, pour ne pas y mettre plus de fichier qu'on peut y stocker, et renverra le nombre de fichiers effectivement ajoutés au tableau. Cette fonction pourrait être utile dans d'autres contexte. Nous allons donc la déclarer dans notre fichier `utility.h` :\
 `int filesWithExtension(const char* extension, External::Archive::File* files, int filesSize) ;`
 
 Comme notre fonction fait référence au type `External::Archive::File` dans sa déclaration, ce type doit être au préalable déclaré. Pour cela nous devons rajouter l'include suivant en haut de notre fichier :\ 
@@ -165,7 +165,7 @@ file = External::Archive::fileAtIndex(i);
 ```
 non ?
 
-En fait, avant (il y a des dizaines d'années), renvoyer une structure ou un objet (plutôt qu'un pointeur) était coûteux (en temps) car le retour faisait une copie. Ce n'est plus vraiment le cas aujourd'hui, mais les développeurs ont pris l'habitude de passer les structures ou objet en paramètre à la fonction, pour que la fonction les remplisse. C'est ce qu'a fait le développeur qui a codé cette fonction. On passe donc un `File` non initialisé à cette fonction qui le remplira avec les `File` à l'index `i` dans l'archive TAR contenant les fichiers.
+En fait, avant (il y a des dizaines d'années), renvoyer une structure ou un objet (plutôt qu'un pointeur) était coûteux (en temps) car le retour faisait une copie. Ce n'est plus vraiment le cas aujourd'hui, mais les développeurs ont pris l'habitude de passer les structures ou objet en paramètre à la fonction, pour que la fonction les remplisse. C'est ce qu'a fait le développeur qui a codé cette fonction. On passe donc un `File` non initialisé à cette fonction qui le remplira avec les `File` à l'index `i` dans l'archive TAR contenant les fichiers. Nous avons fait de même, nous ne renvoyons pas un tableau mais notre fonction reçoit en paramètre un tableau que nous devons remplir, on ne reçoit pas une copie du tableau, mais l'adresse de sa première case, ce qui fera que les modifications que nous y ferons dans notre fonction, s'appliqueront au tableau qui aura été passé en paramètre.
 
 # Les références
 
@@ -194,7 +194,7 @@ void main()
 {
     int i = 0;
     f(i);
-    print(i);
+    print(i);//en réalité cette fonction ne s'utilise pas comme ça en C
 }
 ```
 Le programme affichera 1. En effet le paramètre `a` manipulera la variable `i` qui est passée à f. Alors que si on écrit :
@@ -213,9 +213,32 @@ void main()
 ```
 Le programme affichera 0, en effet le paramètre `b` recevra une copie de `i`, modifiera cette copie sans toucher à `i`.
 
+Une petite subtilité, une référence doit nécessairement référencer quelque chose. On ne peut pas simplement déclarer une référence `int &a;` cela produira une erreur. Il faut lors de la création déclarer ce que référence la référence :
+```c++
+int a;
+int& b = c;
+```
+a et b sont ainsi le même objet (qui n'est pas initialisé et contient potentiellement n'importe quelle valeur). Attention, on ne peut pas ensuite dire qu'un référence référence un autre objet. En effet, si on affecte une nouvelle valeur à la référence, cela va en réalité copier le contenu de ce qu'on affecte à la référence et à l'objet qu'elle référençait! Ainsi:
+```c++
+int a = 1;
+int& b = a;
+int c = 2;
+b = c;
+print(a);
+```
+Le programme affichera 2, car on a copié la valeur de c (2), dans b qui est aussi a.
+
+Compliqué? Souvenez-vous juste que lorsque un `&` est utilisé sur le type d'un paramètre d'une fonction, alors il s'agit d'un passage par référence (sinon il s'agit d'un passage par valeur), et que les modifications faites au paramètre s'appliqueront à l'extérieur de la fonction (ce qui n'est pas le cas lors d'un passage par valeur). On peut également vouloir utiliser le passage par référence pour éviter une copie, mais on ne souhaite pas modifier le paramètre, dans ce cas on utilisera une `const` référence, par exemple si on a :\
+```c++
+void print(const UnGrosObjet& obj);
+```
+la fonction évite la copie d'`UnGrosObjet` en le recevant par référence, mais le code appelant a la garantie que la fonction ne modifiera pas son objet.
+
+Ne peut-on pas faire la même chose avec les pointeurs? Si tout à fait, une différence néanmoins importante c'est qu'un pointeur peut être `NULL` alors qu'une référence référencera toujours quelque chose. Un avantage des références est de permettre la même syntaxe (avec des `.` plutôt que des `->` et pas de `*` pour déréférencer un pointeur) que le paramètre soit passé par référence ou par valeur.
+
 ## Retour dans le `ListBookControler`
 
- Dans le constructeur de notre `ListBookControler` nous allons appeler notre nouvelle fonction pour remplir notre tableau de fichiers `m_files`. Notre constructeur devient:
+Après cette digression, revenons à notre application. Dans le constructeur de notre `ListBookControler` nous allons appeler notre nouvelle fonction pour remplir notre tableau de fichiers `m_files`. Notre constructeur devient:
 ```c++
 ListBookController::ListBookController(Responder * parentResponder):
     ViewController(parentResponder),
@@ -235,4 +258,4 @@ puis après avoir branché la calculatrice :\
 
 Si vous lancez maintenant votre application sur la calculatrice, vous aurez la joie de ne voir rien de neuf! Il faudrait peut être mettre quelques fichiers texte dans votre calculatrice. Pour cela utilisez ce [site](https://omega-numworks.github.io/Omega-External/)
 
-A suivre...
+et voilà!
