@@ -162,7 +162,9 @@ namespace reader {
 class ListBookController : public ViewController, public SimpleListViewDataSource, public SelectableTableViewDataSource
 {
 public:
+```
 // { autofold
+```C++
     ListBookController(Responder * parentResponder);
     View * view() override;
 
@@ -172,11 +174,15 @@ public:
     int reusableCellCount() const override;
     void willDisplayCellForIndex(HighlightCell * cell, int index) override;
     void didBecomeFirstResponder() override;
+```
 // }    
+```c++
     bool handleEvent(Ion::Events::Event event) override;
     
 private:
+```
 // { autofold
+```c++
     SelectableTableView m_tableView;
 
     static const int NB_FILES = 20;
@@ -185,7 +191,9 @@ private:
 
     static const int NB_CELLS = 6;
     MessageTableCell m_cells[NB_CELLS];
+```
 // }
+```c++
     ReadBookController m_readBookController;
 };
 
