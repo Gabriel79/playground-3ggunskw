@@ -46,15 +46,15 @@ Pour compiler pour le simulateur de votre plateforme, allez dans le répertoire 
 `$ cd Omega`
 
 puis sous macos:\
-`$ make PLATFORME=simulator TARGET=macos MODEL="n0110"`
+`$ make PLATFORM=simulator TARGET=macos MODEL="n0110"`
 
 sous windows:\
-`$ make PLATFORME=simulator TARGET=windows MODEL="n0110"`
+`$ make PLATFORM=simulator TARGET=windows MODEL="n0110"`
 
 ou sous linux:\
-`$ make PLATFORME=simulator MODEL="n0110"`
+`$ make PLATFORM=simulator MODEL="n0110"`
 
->ATTENTION : plateforme en anglais ne prend pas de E entre le T et le F (cette découverte m'a coûté une heure)
+>ATTENTION : plateforme en anglais ne prend pas de E entre le T et le F, ni à la fin ! (cette découverte m'a coûté une heure)
 
 
 #### Un premier test
