@@ -119,7 +119,6 @@ Un fois la livre ouvert, on va vouloir pouvoir le fermer et revenir dans la vue 
 ```c++
 class App : public ::App {
 public:
-// { autofold
   class Descriptor : public ::App::Descriptor {
   public:
     I18n::Message name() override;
@@ -131,7 +130,7 @@ public:
     App * unpack(Container * container) override;
     Descriptor * descriptor() override;
   };
-// }
+
 private:
   App(Snapshot * snapshot);
 
@@ -162,9 +161,6 @@ namespace reader {
 class ListBookController : public ViewController, public SimpleListViewDataSource, public SelectableTableViewDataSource
 {
 public:
-```
-// { autofold
-```C++
     ListBookController(Responder * parentResponder);
     View * view() override;
 
@@ -174,15 +170,10 @@ public:
     int reusableCellCount() const override;
     void willDisplayCellForIndex(HighlightCell * cell, int index) override;
     void didBecomeFirstResponder() override;
-```
-// }    
-```c++
+
     bool handleEvent(Ion::Events::Event event) override;
     
 private:
-```
-// { autofold
-```c++
     SelectableTableView m_tableView;
 
     static const int NB_FILES = 20;
@@ -191,9 +182,6 @@ private:
 
     static const int NB_CELLS = 6;
     MessageTableCell m_cells[NB_CELLS];
-```
-// }
-```c++
     ReadBookController m_readBookController;
 };
 
