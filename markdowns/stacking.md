@@ -1,6 +1,6 @@
 # Empilons un nouveau contrôleur
 
-Nous pouvons maintenant choisir un fichier à ouvrir! Une fois ouvert, nous allons avoir besoin d'un nouvel écran, soit une nouvelle vue et un nouveau contrôleur. Commençons par le contrôleur, créons nos 2 fichiers : `apps\reader\read_book_controler.h` et `apps\reader\read_book_controler.cpp`. Rajoutons tout de suite ce nouveau fichier .cpp au Makefile :\
+Nous pouvons maintenant choisir un fichier à ouvrir! Une fois ouvert, nous allons avoir besoin d'un nouvel écran, soit une nouvelle vue et un nouveau contrôleur. Commençons par le contrôleur, créons nos 2 fichiers : `apps\reader\read_book_controller.h` et `apps\reader\read_book_controller.cpp`. Rajoutons tout de suite ce nouveau fichier .cpp au Makefile :\
 ```Makefile
 app_sreader_src = $(addprefix apps/reader/,\
   app.cpp \
@@ -76,7 +76,7 @@ private:
 ```
 ### L'implémentation
 
-Commençons par inclure le header et ouvrir le namespace :
+Dans `apps\reader\read_book_controller.cpp` commençons par inclure le header et ouvrir le namespace :
 ```c++
 #include "read_book_controller.h"
 
@@ -115,7 +115,7 @@ void ReadBookController::setBook(const External::Archive::File& file)
 
 ### Intégration dans l'App
 
-Un fois la livre ouvert, on va vouloir pouvoir le fermer et revenir dans la vue précédente dans l'état où elle était. Pour cela il nous faut "empiler" les vues et les contrôleurs. Pour cela, Numworks fournie un `StackViewController`. Ce contrôleur sera à la racine de nos controlleurs, cela nécessite quelques changement dans la class `reader::App`. Tout d'abord nous lui rajoutons un membre `StackViewController m_stackViewController` :
+Un fois la livre ouvert, on va vouloir pouvoir le fermer et revenir dans la vue précédente dans l'état où elle était. Pour cela il nous faut "empiler" les vues et les contrôleurs. Numworks fournie un `StackViewController` qui va gérer cet empilement au moyen de 2 méthodes: `push` et `pop` qui permettent d'empiler et de dépiler un contrôleur. Ce contrôleur sera à la racine de nos contrôleurs, cela nécessite quelques changement dans la class `reader::App`. Nous lui rajoutons un membre `StackViewController m_stackViewController` :
 ```c++
 class App : public ::App {
 public:
@@ -151,7 +151,7 @@ App::App(Snapshot * snapshot) :
 
 ### Intégration dans le ListBookController
 
-Il nous faut rajouter le code nécessaire à l'ouverture du `ReadBookController` depuis le `ListBookController`. Pour cela il nous faut redéfinir la fonction de gestion des événements : `handleEvent()`, rajouter un membre `ReadBookController`, et rajouter l'include : 
+Il nous faut rajouter le code nécessaire à l'ouverture du `ReadBookController` depuis le `ListBookController`. Pour cela il nous faut rajouter l'include, redéfinir la fonction de gestion des événements : `handleEvent()` et rajouter un membre `ReadBookController` : 
 
 ```c++
 #include "read_book_controller.h"
@@ -182,6 +182,7 @@ private:
 
     static const int NB_CELLS = 6;
     MessageTableCell m_cells[NB_CELLS];
+    
     ReadBookController m_readBookController;
 };
 
@@ -217,7 +218,7 @@ bool ListBookController::handleEvent(Ion::Events::Event event)
 }
 ```
 
-Une ligne peut soulever quelques question :
+Une ligne peut soulever quelques questions :
 ```c++
 static_cast<StackViewController*>(parentResponder())->push(&m_readBookController);
 ```
