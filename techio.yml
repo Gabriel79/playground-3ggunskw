@@ -20,3 +20,5 @@ plan:
   statement: markdowns/stacking.md
 - title: Lecture du fichier dans le simulateur
   statement: markdowns/real-file.md
+- title: Des scrollbars
+  statement: markdowns/scrollbars.md
