@@ -18,3 +18,5 @@ plan:
   statement: markdowns/list-3.md  
 - title: Empilons un controlleur
   statement: markdowns/stacking.md
+- title: Lecture du fichier dans le simulateur
+  statement: markdowns/real-file.md
