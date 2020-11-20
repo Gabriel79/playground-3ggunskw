@@ -4,7 +4,10 @@ Tout d'abord, ce tutoriel est encore en cours de d'écriture... c'est un peu lon
 
 Si vous êtes bloqués quelque part, ou si des points méritent plus d'explications, n'hésitez pas à poster un commentaire !
 
+Je sais que lorsqu'on donne un cours ou une présentation et qu'il n'y a pas de questions, c'est en général que les gens n'ont rien compris... Donc si je suis à 1000 lieux de la cible, dites moi, ou si vous arrivez à faire tourner votre propre app sur votre Numworks grâce à ce tuto, n'hésitez pas à "liker" !
+
 #### A qui s'adresse ce tuto ?
+
 Ce tuto s'adresse à des lycéens ayant acquis une calculatrice Numworks (plutôt la version n0110 qui dispose de plus de mémoire que la version n0100) et qui souhaitent coder leur propre application. Je vais donc donner quelques détails sur les outils, la programmation,... qui pourraient sembler assez inutiles à des développeurs un peu plus agés.
 
 Quelques connaissances de programmation dans un langage comme le python ou le java faciliteront certainement la compréhension de ces quelques pages. J'essayerai d'expliquer un peu les concepts de programmation orientée objet et les spécificités du C/C++ au fil de l'eau, mais si vous voulez vraiment apprendre ce langage, il vous faudra plus que ce tuto.

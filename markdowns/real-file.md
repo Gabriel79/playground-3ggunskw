@@ -2,7 +2,7 @@
 
 ## Dans le ReadBookController
 
-Nous avons pu vérifier que notre vue affichant du texte s'ouvrait. On va maintenant essayer d'afficher le véritable contenu de notre fichier. Sur la calculatrice c'est très simple, le contenu du fichier se trouve déjà dans la structure `External::Archive::File` dans `data`, mais sur le simulateur ce n'est pas le cas. Rajoutons tout de suite le code dans le `ReadBonController` pour passer le contenu du fichier à la `PointerTextView`:
+Nous avons pu vérifier que notre vue affichant du texte s'ouvrait. On va maintenant essayer d'afficher le véritable contenu de notre fichier. Sur la calculatrice c'est très simple, le contenu du fichier se trouve déjà dans la structure `External::Archive::File` dans `data`, mais sur le simulateur ce n'est pas le cas. Rajoutons tout de suite le code dans le `ReadBookController` pour passer le contenu du fichier à la `PointerTextView`:
 ```c++
 void ReadBookController::setBook(const External::Archive::File& file)
 {
