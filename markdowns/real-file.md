@@ -23,15 +23,15 @@ Nous allons donc rajouter une fonction `fillFileData` dans notre fichier `apps\r
 static void fillFileData(External::Archive::File& file)
 {
 ```
-Pour éviter la copie, on passe le paramètre par référence.
+On veut modifier le `File` reçu pour remplir ses différents champs, on passe donc le paramètre par référence.
 
-On commence par initialiser le `file` avec des 0 au cas où quelque chose se passait mal, notre `file` ne contiendrait pas n'importe quoi. En C/C++, si un constructeur n'initialise pas un objet ou une variable, la mémoire est laissée non-initialisée.
+On commence par initialiser les champs du `file` avec des 0 au cas où quelque chose se passait mal, notre `file` ne contiendrait pas n'importe quoi. En C/C++, si un constructeur n'initialise pas un objet ou une variable, la mémoire est laissée non-initialisée.
 ```c++
     file.data = nullptr;
     file.dataLength = 0;        
 ```
 
-Nous allons commencer par lire les informations sur le fichier, notamment sa taille, pour savoir quelle quantité de mémoire il va être nécessaire de réserver pour stocker le contenu du fichier. La fonction `stat()` permet de remplir une structure `stat` avec ces informations. Si une erreur se produisait, la fonction `stat()` renverrait un nombre différent de 0, on sortirait alors de notre fonction sans lire le fichier. Notez qu'on est obligé de déclarer `info` comme un `struct stat` et non juste comme un `stat` pour que le compilateur ne mélange pas la structure `stat` et la fonction `stat`.
+Nous allons commencer par lire les informations sur le fichier, notamment sa taille, pour savoir quelle quantité de mémoire il va être nécessaire de réserver pour stocker le contenu du fichier. La fonction `stat()` permet de remplir une structure `stat` avec cette information. Si une erreur se produisait, la fonction `stat()` renverrait un nombre différent de 0, on sortirait alors de notre fonction sans lire le fichier. Notez qu'on est obligé de déclarer `info` comme un `struct stat` et non juste comme un `stat` pour que le compilateur ne mélange pas la structure `stat` et la fonction `stat`.
 ```c++
     struct stat info;
     if (stat(file.name, &info) != 0) 
@@ -48,7 +48,7 @@ Nous avons maintenant la taille du fichier en octet dans `info.st_size`. Nous al
     }   
 ```
 
-Nous ouvrons ensuite le fichier en lecture binaire "rb" (on va le lire d'un coup, et non ligne par ligne comme on ferait avec un fichier texte). Si l'ouverture échoue, on sort de la fonction.
+Nous ouvrons ensuite le fichier en lecture binaire, d'où le "rb", "r" pour "read" et "b" pour "binary". Bien que le fichier soit du texte, on va le lire d'un coup, et non ligne par ligne comme on ferait avec un fichier texte, d'où l'ouverture en mode binaire. Si l'ouverture échoue, on sort de la fonction.
 ```c++       
     FILE *fp = fopen(file.name, "rb");
     if (fp == NULL) 
@@ -112,7 +112,7 @@ et voilà... on compile, et on essait. Normalement, ça marche.
 
 Si votre fichier texte contient des caractères accentués, vous avez peut-être constaté que ces caractères ne s'affichent pas. En effet, la Numworks ne supporte qu'un jeu limité de caractères. En général, sur ordinateur, les caractères accentués sont encodés avec un code particulier pour chaque caractère. Sur la Numworks, les caractères accentués sont recomposés en combinant le caractère non accentué et son accent. Il faut donc convertir les fichiers textes d'un encodage vers l'autre. 
 
-Nous allons coder un petit script en python qui va nous permettre de normaliser nos fichiers texte. Alors, je ne suis pas développeur python, donc ce n'est peut-être pas le code python le plus élégant, mais il semble faire le job. Le script prend en paramètre le nom du fichier texte à normaliser, il va écrire le fichier normalisé dans un fichier temporaire puis renommer ce fichier temporaire avec le nom initial. Le fichier initial va donc être modifié. Dès fois que quelque chose se passe mal faîtes en donc une copie avant d'exécuter le script!
+Nous allons coder un petit script en python qui va nous permettre de normaliser nos fichiers texte. Alors, je ne suis pas développeur python, donc ce n'est peut-être pas le code python le plus élégant, mais il semble faire le job. Le script prend en paramètre le nom du fichier texte à normaliser, il va écrire le fichier normalisé dans un fichier temporaire puis renommer ce fichier temporaire avec le nom initial. Le fichier initial va donc être modifié. Dès fois que quelque chose se passe mal faites en donc une copie avant d'exécuter le script!
 
 ```python
 import sys
