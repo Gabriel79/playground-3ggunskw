@@ -54,7 +54,7 @@ Et voilà, normalement ça devrait être tout. Vous pouvez essayer. Malheureusem
 
 ## Un bug ?
 
-Un code de la numworks calcule la place occupé par un texte en fonction de la police utilisée. Ce code se situe dans `kandisky/src/font.cpp`
+Un code de la numworks calcule la place occupée par un texte en fonction de la police utilisée. Ce code se situe dans `kandisky/src/font.cpp`
 
 La méthode `stringSizeUntil` ressemble à ça :
 
@@ -85,11 +85,11 @@ KDSize KDFont::stringSizeUntil(const char * text, const char * limit) const {
 }
 ```
 
-Elle semble parcourir le texte caractère par caractère de `text` à `limit`, en réalité `CodePoint` par `CodePoint`, un `CodePoint` correspondant à un caractère affiché mais pouvant occuper plus d'un caractère dans la chaîne `text` à cause de la normalisation des caractères accentués. Pour chaque `CodePoint` la fonction incrémente une `stringSize`, en gérant les sauts de ligne (`UCodePointLineFeed`) pour agrandir en largeur et en hauteur la taille du bloc de texte. Malheureusement la fonction ne tient pas compte du fait que lorsqu'on va à la ligne le compte de la largeur devrait reprendre à 0. Ce qui fait que la largeur du texte pour elle est en fait la largeur totale qu'aurait le texte s'il ne tenait que sur une seule ligne.
+Elle semble parcourir le texte caractère par caractère de `text` à `limit`, en réalité `CodePoint` par `CodePoint`, un `CodePoint` correspondant à un élément composant un caractère affiché (par exemple l'accent d'un caractère accentué à cause de la normalisation des caractères). Pour chaque `CodePoint` la fonction incrémente une `stringSize`, en gérant les sauts de ligne (`UCodePointLineFeed`) pour agrandir en largeur et en hauteur la taille du bloc de texte. Les `CodePoint` particulier comme les accents sont dit `combining()`, ils n'occupent pas de place puisque cette place a déjà été compté par le caractère auquel ils se combinent. Malheureusement la fonction ne tient pas compte du fait que lorsqu'on va à la ligne le compte de la largeur devrait reprendre à 0. Ce qui fait que la largeur du texte pour elle est en fait la largeur totale qu'aurait le texte s'il ne tenait que sur une seule ligne. Le résultat de cette fonction servant à dimensionner les scrollbars, la scrollbar horizontale est bien trop longue.
 
 ## Une correction ?
 
-Peut-être que je me trompe sur ce qu'est sensé faire cette fonction, et la corriger pourrait modifier le comportement actuel d'autres applications de la Numworks, faire une correction est donc risquée. Je pense cependant que la fonction devrait s'écrire ainsi :
+Peut-être que je me trompe sur ce qu'est sensé faire cette fonction, et la corriger pourrait modifier le comportement actuel d'autres applications de la Numworks, faire une correction est donc risqué. Je pense cependant que la fonction devrait s'écrire ainsi :
 ```c++
 
 KDSize KDFont::stringSizeUntil(const char * text, const char * limit) const {
