@@ -204,7 +204,6 @@ L'ouverture du fichier choisi se fait dans le `handleEvent()`. Cette méthode re
 ```c++
 bool ListBookController::handleEvent(Ion::Events::Event event)
 {
-    std::cout<<selectedRow()<<std::endl;
     if (event == Ion::Events::OK || event == Ion::Events::EXE || event == Ion::Events::Right)
     {
         
