@@ -60,6 +60,11 @@ void ListBookController::didBecomeFirstResponder()
 }
 ```
 
+Il nous faut également rajouter l'include suivant :\
+```c++
+#include "apps/i18n.h"
+```
+
 Pour l'internationalisation, nous rajoutons une entrée dans nos fichiers ".i18n" :
 `NoFileToDisplay = "Aucun fichier à afficher!"`
 

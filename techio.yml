@@ -24,3 +24,5 @@ plan:
   statement: markdowns/scrollbars.md
 - title: Word wrapping TextView - partie 1
   statement: markdowns/wrap.md
+- title: Word wrapping TextView - partie 2
+  statement: markdowns/wrap2.md
