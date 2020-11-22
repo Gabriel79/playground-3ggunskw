@@ -206,7 +206,7 @@ App::Descriptor * App::Snapshot::descriptor()
 
 La fonction `unpack` crée une instance de notre class App en lui donnant en paramètre la zone de mémoire à utiliser (qui est fournit par `container->currentAppBuffer()`).
 
-La fonction `descriptor` renvoie elle le `Descriptor` de notre application en utilisant un pattern classique: le singleton. Le singleton, garantit qu'il n'existe au sein de notre application qu'une seule instance du `Descriptor` celui déclaré à la ligne `static Descriptor descriptor;`. Le mot clé `static` lors de la déclaration de la variable indique que la variable continue d'exister même après la fin de la fonction et que si le programme repasse dans cette fonction il n'aura pas à déclarer une nouvelle variable mais réutilisera la variable du précédent appel.
+La fonction `descriptor` renvoie elle le `Descriptor` de notre application en utilisant un pattern classique: le singleton. Le singleton garantit qu'il n'existe au sein de notre application qu'une seule instance du `Descriptor` celui déclaré à la ligne `static Descriptor descriptor;`. Le mot clé `static` lors de la déclaration de la variable indique que la variable continue d'exister même après la fin de la fonction et que si le programme repasse dans cette fonction il n'aura pas à déclarer une nouvelle variable mais réutilisera la variable du précédent appel.
 
 ### Constructeur
 
@@ -355,5 +355,5 @@ Normalement votre application devrait apparaître dans le simulateur. Vous pouve
 
 ### On sauvegarde
 
-Une bonne habitude à prendre est d'utiliser [git](https://git-scm.com/) pour sauvegarder votre code. Git est inclus dans Visual Studio Code, il s'agit d'un gestionnaire de code source, il stock l'historique de vos modifications, ce qui permet de revenir en arrière, d'essayer des choses sans perdre une version qui marche.
+Une bonne habitude à prendre est d'utiliser [git](https://git-scm.com/) pour sauvegarder votre code. Git est inclus dans Visual Studio Code, il s'agit d'un gestionnaire de code source, il stocke l'historique de vos modifications, ce qui permet de revenir en arrière, d'essayer des choses sans perdre une version qui marche.
 

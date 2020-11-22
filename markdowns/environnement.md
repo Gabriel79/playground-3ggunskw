@@ -4,12 +4,12 @@
 
 L'installation d'un environnement de développement est souvent une étape un peu longue. Pour développer pour la Numworks il vous faudra installer quelques pré-requis.
 
-La première étape va être d'installer les outils de compilations. Pour cela suivre les indications de l'étape 1 (Installation du SDK) sur [Numworks](https://www.numworks.com/resources/engineering/software/build/)
+La première étape va être d'installer les outils de compilations. Pour cela suivez les indications de l'étape 1 (Installation du SDK) sur [Numworks](https://www.numworks.com/resources/engineering/software/build/)
 
 Sous windows, cela n'a pas été aussi simple qu'espéré pour moi. Il faut d'abord installer [MSys](https://www.msys2.org/), pour cela j'ai dû désactiver mon antivirus et activer juste Windows Defender. MSys fournit une ligne de commande comme sous linux ou macos. A partir de là il faut installer les packages dont à besoin Numworks:\
 `pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-freetype mingw-w64-x86_64-pkg-config mingw-w64-x86_64-libusb git make python`
 
-Puis en prenant bien garde d'être dans votre répertoire "home" de MSys, normalement MSys s'ouvre directement à cet endroit, mais si vous vous êtes baladé depuis l'invite de commande, il convient d'y retourner (pour vous y rendre la commande est juste `cd`), il faut rajouter une ligne à un fichier de configuration qui modifiera votre PATH à chaque fois que vous lancerez MSys:\
+Puis en prenant bien garde d'être dans votre répertoire "home" de MSys, normalement MSys s'ouvre directement à cet endroit, mais si vous vous êtes baladé depuis l'invite de commande, il faut y retourner (pour vous y rendre la commande est juste `cd`), il faut rajouter une ligne à un fichier de configuration qui modifiera votre PATH à chaque fois que vous lancerez MSys:\
 `echo "export PATH=/mingw64/bin:$PATH" >> .bashrc`\
 Pour information, le PATH est l'ensemble des répertoires où l'ordinateur cherchera vos programmes quand vous tapez une commande.
 
@@ -42,7 +42,7 @@ Je vous conseille de compiler une première fois le repository (l'ensemble du co
 
 Compiler consiste à transformer le code source d'une application en instructions binaires exécutable par un ordinateur.
 
-Pour compiler pour le simulateur de votre plateforme, allez dans le répertoire de votre repository:\
+Pour compiler pour le simulateur de votre plateforme, dans l'invite de commande de MSys, allez dans le répertoire de votre repository:\
 `$ cd Omega`
 
 puis sous macos:\

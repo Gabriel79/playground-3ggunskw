@@ -14,8 +14,7 @@ void WordWrapTextView::drawRect(KDContext * ctx, KDRect rect) const
 
 Nous venons de remplir l'écran de la couleur du fond. Cherchons maintenant le premier mot à afficher. Pour cela Numworks fournit une méthode: `UTF8Helper::EndOfWord` :
 ```c++
-    const char * current = text(); // notre position actuelle
-    const char * startOfWord = current;//le début d'un mot
+    const char * startOfWord = text();//le début du premier mot
     const char * endOfWord = UTF8Helper::EndOfWord(startOfWord);//la fin du mot
 ```
 
@@ -79,8 +78,7 @@ void WordWrapTextView::drawRect(KDContext * ctx, KDRect rect) const
 {
      ctx->fillRect(KDRect(0, 0, bounds().width(), bounds().height()), m_backgroundColor);
 
-    const char * current = text();
-    const char * startOfWord = current;
+    const char * startOfWord = text();
     const char * endOfWord = UTF8Helper::EndOfWord(startOfWord);
 
     KDPoint textPosition(0, 0);
@@ -110,9 +108,7 @@ void WordWrapTextView::drawRect(KDContext * ctx, KDRect rect) const
 {
      ctx->fillRect(KDRect(0, 0, bounds().width(), bounds().height()), m_backgroundColor);
 
-
-    const char * current = text();
-    const char * startOfWord = current;
+    const char * startOfWord = text();
     const char * endOfWord = UTF8Helper::EndOfWord(startOfWord);
     KDPoint textPosition(0, 0);
 
@@ -182,9 +178,7 @@ void WordWrapTextView::drawRect(KDContext * ctx, KDRect rect) const
 {
      ctx->fillRect(KDRect(0, 0, bounds().width(), bounds().height()), m_backgroundColor);
 
-
-    const char * current = text();
-    const char * startOfWord = current;
+    const char * startOfWord = text();
     const char * endOfWord = UTF8Helper::EndOfWord(startOfWord);
     KDPoint textPosition(0, 0);
 
@@ -239,9 +233,7 @@ void WordWrapTextView::drawRect(KDContext * ctx, KDRect rect) const
 {
      ctx->fillRect(KDRect(0, 0, bounds().width(), bounds().height()), m_backgroundColor);
 
-
-    const char * current = text();
-    const char * startOfWord = current;
+    const char * startOfWord = text();
     const char * endOfWord = UTF8Helper::EndOfWord(startOfWord);
     KDPoint textPosition(0, 0);
 
@@ -263,6 +255,14 @@ Nous effectuons ensuite le même test pour savoir si notre mot ne rentre pas dan
         {
             textPosition = KDPoint(0, textPosition.y() + textSize.height());
             nextTextPosition = KDPoint(textSize.width(), textPosition.y());
+        }
+```
+
+Si nous avons été à la ligne, il faut nous assurer que nous ne sortons pas de l'écran :
+```c++
+        if(textPosition.y() + textSize.height() > m_frame.height() - margin)
+        {
+            break;
         }
 ```
 
@@ -316,9 +316,7 @@ void WordWrapTextView::drawRect(KDContext * ctx, KDRect rect) const
 {
      ctx->fillRect(KDRect(0, 0, bounds().width(), bounds().height()), m_backgroundColor);
 
-
-    const char * current = text();
-    const char * startOfWord = current;
+    const char * startOfWord = text();
     const char * endOfWord = UTF8Helper::EndOfWord(startOfWord);
     KDPoint textPosition(0, 0);
 
@@ -338,7 +336,11 @@ void WordWrapTextView::drawRect(KDContext * ctx, KDRect rect) const
             textPosition = KDPoint(0, textPosition.y() + textSize.height());
             nextTextPosition = KDPoint(textSize.width(), textPosition.y());
         }
-        
+        if(textPosition.y() + textSize.height() > m_frame.height() - margin)
+        {
+            break;
+        }
+
         stringNCopy(word, wordMaxLength, startOfWord, endOfWord-startOfWord);
         ctx->drawString(word, textPosition, m_font, m_textColor, m_backgroundColor);
 
@@ -373,5 +375,3 @@ void WordWrapTextView::drawRect(KDContext * ctx, KDRect rect) const
 
 Sur mon fichier test, on obtient ça :
 ![Liste de fichiers](../wrap-3.png)
-
-A suivre...
