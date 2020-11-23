@@ -12,6 +12,8 @@ Ce tuto s'adresse à des lycéens ayant acquis une calculatrice Numworks (plutô
 
 Quelques connaissances de programmation dans un langage comme le python ou le java faciliteront certainement la compréhension de ces quelques pages. J'essayerai d'expliquer un peu les concepts de programmation orientée objet et les spécificités du C/C++ au fil de l'eau, mais si vous voulez vraiment apprendre ce langage, il vous faudra plus que ce tuto.
 
+Plutôt que d'expliquer le code final de l'application, je vais détailler le processus de création de l'application, en progressant petit à petit vers ma solution (qui n'est probablement ni la seule, ni la meilleure).
+
 #### La Numworks
 
 La Numworks se programme en C++, mais ne supporte pas toutes les librairies C/C++ qu'on a l'habitude de rencontrer, ce qui ne rend pas forcément le développement très facile à un développeur C++, mais cela simplifiera les choses pour un débutant.

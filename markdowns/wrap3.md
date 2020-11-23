@@ -1,6 +1,6 @@
 # Word wrapping TextView - partie 3
 
-Si votre fichier de test est un peu long, vous avez dû vous rendre compte qu'il ne rentrait pas dans l'écran et que les pages ne défilaient pas toute seule... On va faire défiler les pages écran par écran plutôt que ligne par ligne.
+Si votre fichier de test est un peu long, vous avez dû vous rendre compte qu'il ne rentrait pas dans l'écran et que les pages ne défilaient pas toute seules... On va faire défiler les pages écran par écran plutôt que ligne par ligne.
 
 ## Page suivante
 
@@ -27,7 +27,7 @@ Le mot clé `mutable` devant `m_nextPageOffset`a peut-être attiré votre attent
 
 ### drawRect 
 
-Au niveau de l'implémentation, commençons par adapter notre fonction `drawRect` qui au lieu n'initialiser `startOfWord` avec `text()` (qui renvoie un pointeur vers le début du fichier), l'initialisera avec l'offset de la page :
+Au niveau de l'implémentation, commençons par adapter notre fonction `drawRect` qui au lieu d'initialiser `startOfWord` avec `text()` (qui renvoie un pointeur vers le début du fichier), lui rajoutera l'offset de la page :
 ```C++
     const char * startOfWord = text() + m_pageOffset;
 ```

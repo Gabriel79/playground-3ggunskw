@@ -23,13 +23,13 @@ Nous allons garder en mémoire la position du texte à l'écran. A chaque fois q
     KDPoint textPosition(0, 0);
 ```
 
-La fonction `drawString` dessine une chaîne de caractère terminée par le caractère `NULL` (0). Or notre mot qui commence à startOfWord et se finit à endOfWord ne se termine pas par un caractère `NULL` (sauf si notre mot est la fin de la chaîne). Nous allons donc copier notre mot dans un tableau où nous pourrons mettre notre caractère `NULL`, on ne veut en effet pas écrire dans notre chaîne de caractère qui est le fichier en mémoire lui même (d'ailleurs je ne suis pas sûr que ça soit possible d'écrire dans cette zone de la mémoire). Pour faire la copie il existe une fonction C `strncpy` qui n'est pas disponible sur la Numworks. Nous coderons une fonction similaire après que nous appellerons `stringCopyN` supposons dans un premier temps qu'elle existe. Il nous faut tout d'abord un tableau de caractère où copier notre mot :
+La fonction `drawString` dessine une chaîne de caractères terminée par le caractère `NULL` (0). Or notre mot qui commence à startOfWord et se finit à endOfWord ne se termine pas par un caractère `NULL` (sauf si notre mot est la fin de la chaîne). Nous allons donc copier notre mot dans un tableau où nous pourrons mettre notre caractère `NULL`, on ne veut en effet pas écrire dans notre chaîne de caractères qui est le fichier en mémoire lui même (d'ailleurs je ne suis pas sûr que ça soit possible d'écrire dans cette zone de la mémoire). Pour faire la copie il existe une fonction C `strncpy` qui n'est pas disponible sur la Numworks. Nous coderons une fonction similaire après que nous appellerons `stringCopyN` supposons dans un premier temps qu'elle existe. Il nous faut tout d'abord un tableau de caractères où copier notre mot :
 ```c++
     const int wordMaxLength = 128;
     char buff[wordMaxLength];
     stringNCopy(word, wordMaxLength, startOfWord, endOfWord-startOfWord);
 ```
-La soustraction des 2 pointeurs de chaîne de caractère, donne la longueur du mot.
+La soustraction des 2 pointeurs de chaîne de caractères, donne la longueur du mot.
 
 Dessinons notre mot.
 ```c++
@@ -60,7 +60,7 @@ void stringNCopy(char* dest, int max, const char* src, int len)
 }
 ```
 
-L'algorithme est le suivant. Tant qu'il reste des caractère en entrée (`len>0`), qu'on a encore de la place dans le tableau de sortie (`max>1`) (on se réserve une case pour mettre le caractère `NULL`) et tant qu'on n'a pas un caractère `NULL` en entrée (`*src != NULL`), on copie l'entrée dans le tableau de sortie (`*dest = *src`), puis on se déplace d'une case dans la sortie (`dest++`), d'une case dans l'entrée (`src++`), et on décompte un caractère de l'entrée (`len--`) et de la sortie (`max--`). Quand on sort de la boucle on finit la destination par un caractère `NULL` (`*dest = 0`).
+L'algorithme est le suivant. Tant qu'il reste des caractères en entrée (`len>0`), qu'on a encore de la place dans le tableau de sortie (`max>1`) (on se réserve une case pour mettre le caractère `NULL`) et tant qu'on n'a pas un caractère `NULL` en entrée (`*src != NULL`), on copie l'entrée dans le tableau de sortie (`*dest = *src`), puis on se déplace d'une case dans la sortie (`dest++`), d'une case dans l'entrée (`src++`), et on décompte un caractère de l'entrée (`len--`) et de la sortie (`max--`). Quand on sort de la boucle on finit la destination par un caractère `NULL` (`*dest = 0`).
 
 Il nous reste à rajouter dans `word_wrap_view.cpp` l'include :
 ```C++
