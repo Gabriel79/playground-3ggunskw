@@ -27,4 +27,6 @@ plan:
 - title: Word wrapping TextView - partie 2
   statement: markdowns/wrap2.md
 - title: Word wrapping TextView - partie 3
-  statement: markdowns/wrap3.md  
+  statement: markdowns/wrap3.md
+- title: Word wrapping TextView - partie 3
+  statement: markdowns/wrap4.md

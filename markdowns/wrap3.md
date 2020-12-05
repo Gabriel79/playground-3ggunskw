@@ -196,5 +196,3 @@ void WordWrapTextView::drawRect(KDContext * ctx, KDRect rect) const
 ``` 
 
 ![Liste de fichiers](../wrap-4.png)
-
-A suivre...
