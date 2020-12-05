@@ -1,10 +1,10 @@
-Word wrapping Textview - partie 4
+# Word wrapping Textview - partie 4
 
 Nous pouvons maintenant faire défiler les pages vers l'avant. Il nous faut faire la même chose vers l'arrière. Malheureusement ce n'est pas aussi simple, en effet, vers l'avant c'est le rendu du texte qui nous indique où nous nous sommes arrêtés et où commencera la page suivante. Pour revenir en arrière, nous pourrions nous souvenir d'où commençait la page précédente, mais cela ne marcherait qu'une fois.
 
 Nous allons donc coder un word wrapping à l'envers, c'est à dire qui commence de la fin de la page et remonte jusqu'à sortir de l'écran par le haut! Nous trouverons ainsi le début de la page.
 
-L'algorithme ressemble au précédent. Sauf que nous partons du bas de l'écran à droite et on calcule les longueurs de mots vers la gauche en remontant quand la ligne est pleine.
+L'algorithme ressemble au précédent, à la différence que nous partons du bas de l'écran à droite et nous calculons les longueurs de mots vers la gauche en remontant quand la ligne est pleine.
 
 Rajoutons donc notre fonction dans le header (`word_wrap_view.h`) :
 ```c++
@@ -13,7 +13,7 @@ Rajoutons donc notre fonction dans le header (`word_wrap_view.h`) :
 
 Et son implémentation dans `word_wrap_view.cpp`:
 ```c++
- void WordWrapTextView::previousPage()
+void WordWrapTextView::previousPage()
 {
 ```
 Commençons par quitter la fonction si nous sommes déjà au début du texte.
@@ -30,12 +30,12 @@ Puis trouvons la fin du mot de la page en cours, puis son début en utilisant la
     const char * endOfWord = text() + m_pageOffset - 1;
     const char * startOfWord = UTF8Helper::BeginningOfWord(text(), endOfWord);
 ```
-Initialisons une variable indiquant on nous nous trouvons dans la page (en bas à droite) en tenons compte de la marge :
+Initialisons une variable indiquant on nous nous trouvons dans la page (en bas à droite) en tenant compte de la marge :
 ```c++
 KDPoint textPosition(m_frame.width() - margin, m_frame.height() - margin);
     
 ```
-Puis commençons notre boucle qui s'arrêteras si on remonte au début du texte :
+Puis commençons notre boucle qui s'arrêtera si on remonte au début du texte :
 ```c++
     while(startOfWord>=text())
     {
@@ -107,7 +107,7 @@ Si nous sommes sortis de la boucle, c'est que le dernier mot traité ne rentrait
     else
         m_pageOffset = UTF8Helper::EndOfWord(startOfWord) - text() + 1;
 ```
-AVant d'indiquer qu'il faut redessiner l'écran :
+Avant d'indiquer qu'il faut redessiner l'écran :
 ```c++
     markRectAsDirty(bounds());
 }
