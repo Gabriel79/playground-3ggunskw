@@ -1,11 +1,5 @@
 # Introduction
 
-Tout d'abord, ce tutoriel est encore en cours de d'écriture... c'est un peu long, mais je vais essayer d'avancer quotidiennement... 
-
-Si vous êtes bloqués quelque part, ou si des points méritent plus d'explications, n'hésitez pas à poster un commentaire !
-
-Je sais que lorsqu'on donne un cours ou une présentation et qu'il n'y a pas de questions, c'est en général que les gens n'ont rien compris... Donc si je suis à 1000 lieux de la cible, dites moi, ou si vous arrivez à faire tourner votre propre app sur votre Numworks grâce à ce tuto, n'hésitez pas à "liker" !
-
 #### A qui s'adresse ce tuto ?
 
 Ce tuto s'adresse à des lycéens ayant acquis une calculatrice Numworks (plutôt la version n0110 qui dispose de plus de mémoire que la version n0100) et qui souhaitent coder leur propre application. Je vais donc donner quelques détails sur les outils, la programmation,... qui pourraient sembler assez inutiles à des développeurs un peu plus agés.
@@ -27,6 +21,12 @@ Nous allons construire ensemble une liseuse de fichiers texte, avec l'idée de p
 Nous allons réaliser 2 écrans, l'un utilisant une "vue" standard pour lister les livres disponibles sur la calculatrice, et une "vue" faite à la main pour afficher du texte à l'écran en codant manuellement le "word wrapping" et la scrollbar.
 
 Nous allons également voir comment sauver des informations dans la mémoire de la calculatrice pour nous souvenir du dernier endroit lu dans chaque fichier texte.
+
+#### Votre avis
+
+Si vous êtes bloqués quelque part, ou si des points méritent plus d'explications, n'hésitez pas à poster un commentaire !
+
+Je sais que lorsqu'on donne un cours ou une présentation et qu'il n'y a pas de questions, c'est en général que les gens n'ont rien compris... Donc si je suis à 1000 lieux de la cible, dites moi, ou si vous arrivez à faire tourner votre propre app sur votre Numworks grâce à ce tuto, n'hésitez pas à "liker" !
 
 #### Moi
 
