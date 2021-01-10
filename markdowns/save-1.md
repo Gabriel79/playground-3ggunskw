@@ -255,4 +255,6 @@ Si quelqu'un a été jusque là, je serais content de le savoir. Et si vous avez
 
 S'il y a des bugs (fort probable) dites le moi, je chercherais à les corriger !
 
+Sinon voici un lien vers le code source (il y a tout le code d'Oméga, auquel j'ai rajouté mon application) [https://github.com/Gabriel79/OmegaWithReaderTutorial](https://github.com/Gabriel79/OmegaWithReaderTutorial)
+
 Merci
